@@ -1,5 +1,5 @@
 """
-NLSC Geocoding API 測試腳本
+Nominatim (OpenStreetMap) geocoding test
 測試前 20 筆地址，觀察成功率與回應格式
 """
 
@@ -13,17 +13,21 @@ from pathlib import Path
 CSV_PATH = Path(__file__).parent.parent / "data" / "processed" / "atm_data.csv"
 TEST_SIZE = 20
 
-def geocode_nlsc(address: str) -> dict | None:
-    base = "https://geocode.nlsc.gov.tw/QueryAddr"
+def geocode_nominatim(address: str) -> dict | None:
+    base = "https://nominatim.openstreetmap.org/search"
     params = urllib.parse.urlencode({
-        "queryType": "0",
-        "outSR": "4326",
+        "q": address,
         "format": "json",
-        "addr": address,
+        "limit": 1,
+        "countrycodes": "tw",
     })
     url = f"{base}?{params}"
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "tw-fx-atm/0.1"})
+        # Nominatim 要求 User-Agent 含聯絡資訊
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "tw-fx-atm/0.1 (dodiddone0518@gmail.com)"},
+        )
         with urllib.request.urlopen(req, timeout=10) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         return data
@@ -40,20 +44,16 @@ def main():
     for i, row in enumerate(sample):
         addr = row["地址"]
         print(f"[{i+1}/{TEST_SIZE}] {addr}")
-        resp = geocode_nlsc(addr)
+        resp = geocode_nominatim(addr)
 
-        # 嘗試解析座標
         lat = lng = None
         status = "失敗"
-        if resp and "AddressMatchList" in resp:
-            match_list = resp["AddressMatchList"]
-            if match_list:
-                first = match_list[0]
-                lat = first.get("y")
-                lng = first.get("x")
-                status = "成功" if lat and lng else "有結果但無座標"
 
-        elif resp and "error" in resp:
+        if isinstance(resp, list) and resp:
+            lat = resp[0].get("lat")
+            lng = resp[0].get("lon")
+            status = "成功" if lat and lng else "有結果但無座標"
+        elif isinstance(resp, dict) and "error" in resp:
             status = f"錯誤: {resp['error']}"
 
         results.append({
@@ -64,7 +64,7 @@ def main():
             "raw": json.dumps(resp, ensure_ascii=False)[:200],
         })
         print(f"   → {status}  lat={lat}  lng={lng}")
-        time.sleep(0.3)
+        time.sleep(1.1)  # Nominatim 規定每秒最多 1 次請求
 
     success = sum(1 for r in results if r["status"] == "成功")
     print(f"\n成功率：{success}/{TEST_SIZE}")

@@ -188,6 +188,7 @@ json.dump(results, f, ensure_ascii=False, indent=2)
 | 第一版 regex（只支援中文段數） | 86% |
 | 修正後（支援阿拉伯數字段、巷弄、連字號門牌） | **98%** |
 | **正式跑完全部 1,962 筆（2026-05-07，Mac）** | **97.5%（1,913 筆）** |
+| **重跑（2026-05-08，修正 regex + 重新 parse PDF）** | **98.8%（1,939 筆）** |
 
 主要改善：`2段` → 支援、`2巷100號` → 支援、`62-5號` → 支援、多地址單元 → 取第一個。
 
@@ -263,6 +264,26 @@ for i, row in enumerate(rows):
 | 台北市信義區市府路 | 信義區 | 「市」前面是「區」，lookbehind 失敗，不停在市，往前退到「區」 |
 
 **教訓**：地名 pattern 不能用簡單的「遇到特定字停止」邏輯，因為台灣地名本身就含有這些字（前鎮、平鎮、新市）。遇到解析率不明原因下降時，先印出 query 字串逐一比對原始地址。
+
+---
+
+### 坑 4 — `data/` 整個被 .gitignore 擋掉，JSON 沒進 git
+
+**症狀**：`git status` 顯示 clean，但 `data/processed/atm_geocoded.json` 根本不在 repo 裡。GitHub Pages 上地圖會載入失敗（fetch 找不到 JSON）。
+
+**原因**：`.gitignore` 裡有一行 `data/`，把整個 data 目錄擋掉了。原意是不要 commit 原始 PDF 和暫存檔，但這樣也把必要的 JSON 一起排除了。
+
+**解法**：在 `.gitignore` 裡加例外規則，再 force-add：
+```
+# .gitignore
+data/
+!data/processed/atm_geocoded.json
+```
+```bash
+git add -f data/processed/atm_geocoded.json
+```
+
+**教訓**：有靜態網站需要的資料檔時，要確認它有被 git 追蹤。`git status` clean 不代表「所有需要的檔都在」，只代表「沒有未 commit 的變更」。
 
 ---
 

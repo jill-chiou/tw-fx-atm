@@ -17,9 +17,9 @@ tgos = {}
 with open(RESULT_PATH, encoding="utf-8-sig") as f:
     for row in csv.DictReader(f):
         idx = int(row["id"])
-        x = row.get("Response_X", "").strip()
-        y = row.get("Response_Y", "").strip()
-        tgos[idx] = (x or None, y or None)
+        x = row.get("Response_X", "").strip()  # 經度 lng
+        y = row.get("Response_Y", "").strip()  # 緯度 lat
+        tgos[idx] = (y or None, x or None)     # (lat, lng)
 
 # 讀原始 CSV（銀行名稱、裝設地點等）
 with open(CSV_PATH, encoding="utf-8-sig") as f:

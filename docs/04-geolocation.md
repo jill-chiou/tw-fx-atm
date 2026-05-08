@@ -107,3 +107,45 @@ function haversine(lat1, lng1, lat2, lng2) {
 - **Haversine 公式**：考慮地球曲率的直線距離計算
 - **Good Enough 工程決策**：直線距離在合理使用情境下夠準，不需要為邊緣案例引入複雜的 routing API
 - **API 設計**：`showNearby()` 與篩選器解耦，任何改變可見 ATM 的操作都能觸發更新
+
+---
+
+## 踩過的坑
+
+### 1. TGOS Response_X / Response_Y 對調
+
+**症狀**：定位成功，地圖藍點位置正確，但「附近 ATM」顯示的距離全是 7000+ 公里——明顯不合理。
+
+**原因**：TGOS 批次比對回傳的欄位是 `Response_X`（**經度** lng，台灣約 120–122）和 `Response_Y`（**緯度** lat，台灣約 22–25）。地理座標的慣例是 X = 東西向 = 經度，Y = 南北向 = 緯度，但 JSON 裡的欄位名稱是 `lat`/`lng`，兩邊對不上就對調了。
+
+把 `Response_X` 存進 `lat`、`Response_Y` 存進 `lng` 的結果，等於把台灣所有 ATM 的位置擺到了北緯 121 度（俄羅斯西伯利亞附近），自然離使用者 7000 公里遠。
+
+**修法**：`import_tgos_result.py` 裡對調：
+```python
+# 修前（錯的）
+tgos[idx] = (x or None, y or None)  # x 存進 lat
+
+# 修後（對的）
+tgos[idx] = (y or None, x or None)  # y=緯度 → lat，x=經度 → lng
+```
+
+**教訓**：收到外部座標資料時，先印出幾筆確認台灣緯度應在 22–25、經度應在 119–122，再繼續。
+
+---
+
+### 2. Geolocation 錯誤訊息太籠統
+
+**症狀**：點定位按鈕，跳出「定位失敗，請確認已允許瀏覽器存取位置」，但實際原因可能是 timeout 或 GPS 訊號不佳，不是權限問題。
+
+**修法**：根據 `err.code` 給出對應訊息：
+```javascript
+err => {
+  const msg = {
+    1: "定位失敗：請允許瀏覽器存取位置（設定 → Safari → 位置）",
+    2: "定位失敗：裝置無法取得位置訊號，請稍後再試",
+    3: "定位失敗：逾時，請確認 GPS 或網路正常後重試",
+  }[err.code] || "定位失敗，請稍後再試";
+}
+```
+
+Geolocation error code：`1` = 權限拒絕、`2` = 位置不可用、`3` = 逾時。同時加 `{ timeout: 10000 }` 選項避免無限等待。

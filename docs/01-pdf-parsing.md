@@ -125,6 +125,25 @@ for row in rows:
 
 ---
 
+### 坑 4 — 修了 parse_pdf.py 但沒重跑，CSV 還是舊的
+
+**症狀**：地圖上的銀行篩選器出現「代號」和「代號 012」兩個異常按鈕，點進去資料也是錯的。
+
+**原因**：上一輪修正了 parse_pdf.py（補 `BANK_NAME_FIX` 和向前填充），但**只改了程式碼，沒有重新執行**。CSV 是之前跑出來的舊檔案，`#N/A` 和空銀行名稱從來沒被修到。geocoding 再從這份舊 CSV 跑，JSON 的銀行名稱自然也是錯的。
+
+**解法**：
+1. 重新執行 `python scripts/parse_pdf.py` 產生乾淨的 CSV
+2. 用乾淨的 CSV 修補已有座標的 JSON（不需要重跑 geocoding）：
+```python
+for i, (j, c) in enumerate(zip(json_rows, csv_rows)):
+    json_rows[i]['代號'] = c['代號']
+    json_rows[i]['銀行名稱'] = c['銀行名稱']
+```
+
+**教訓**：修改「產生資料的程式碼」之後，一定要重跑一次讓輸出更新。程式碼改了不等於資料改了，兩者是獨立的。
+
+---
+
 ## 本步驟學到的概念
 
 - **pdfplumber**：透過幾何分析把 PDF 表格還原成結構化資料

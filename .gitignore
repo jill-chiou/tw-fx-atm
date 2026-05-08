@@ -1,6 +1,10 @@
 # Data files
-data/
+data/*
+!data/processed/
+data/processed/*
 !data/processed/atm_geocoded.json
+!data/processed/sample_validation.csv
+!data/processed/sample_validation_review.csv
 
 # Python
 __pycache__/

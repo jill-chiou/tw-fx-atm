@@ -81,6 +81,65 @@
     .popup-content strong { display: block; font-size: 14px; margin-bottom: 2px; }
     .popup-content .location { color: #555; }
     .popup-content .address { color: #333; margin-top: 2px; }
+
+    #btn-locate {
+      font-size: 13px;
+      padding: 4px 12px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    #btn-locate:hover { background: rgba(255,255,255,0.3); }
+    #btn-locate:disabled { opacity: 0.5; cursor: wait; }
+
+    #nearby-panel {
+      display: none;
+      background: white;
+      border-top: 2px solid #1a73e8;
+      flex-shrink: 0;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    #nearby-panel.visible { display: block; }
+
+    #nearby-header {
+      position: sticky;
+      top: 0;
+      background: white;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #nearby-header button {
+      font-size: 12px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .nearby-item {
+      padding: 8px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .nearby-item:hover { background: #f8f9fa; }
+    .nearby-item-info { flex: 1; }
+    .nearby-item-bank { font-weight: 600; }
+    .nearby-item-addr { color: #666; font-size: 12px; margin-top: 2px; }
+    .nearby-item-dist { color: #1a73e8; font-weight: 600; white-space: nowrap; font-size: 13px; }
   </style>
 </head>
 <body>
@@ -88,6 +147,7 @@
 <header>
   <h1>台灣外幣 ATM 地圖</h1>
   <span class="count" id="visible-count"></span>
+  <button id="btn-locate">定位</button>
 </header>
 
 <div id="filter-bar">
@@ -95,6 +155,14 @@
 </div>
 
 <div id="map"></div>
+
+<div id="nearby-panel">
+  <div id="nearby-header">
+    <span>附近的外幣 ATM</span>
+    <button id="btn-close-nearby">關閉</button>
+  </div>
+  <div id="nearby-list"></div>
+</div>
 
 <script>
   const map = L.map("map").setView([23.97, 120.97], 8);
@@ -143,7 +211,72 @@
     });
   }
 
-  let allMarkers = [];    // [{marker, bank}]
+  // 直線距離（Haversine 公式），單位：公尺
+  // 選擇直線而非步行距離的原因：
+  // 1. 步行距離需要每筆打 routing API，1,939 筆同時算會很慢
+  // 2. ATM finder 使用情境（幾百公尺內）直線 vs 步行差異不大
+  // 3. Google Maps「附近」排序也是直線距離，只有點導航才算路線
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat/2)**2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function formatDist(m) {
+    return m < 1000 ? `${Math.round(m)} 公尺` : `${(m/1000).toFixed(1)} 公里`;
+  }
+
+  let userLat = null, userLng = null, userMarker = null;
+
+  function setUserMarker(lat, lng) {
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.circleMarker([lat, lng], {
+      radius: 9,
+      color: "white",
+      weight: 3,
+      fillColor: "#1a73e8",
+      fillOpacity: 1,
+    }).addTo(map).bindPopup("你在這裡");
+  }
+
+  function showNearby() {
+    if (userLat === null) return;
+    const visible = allMarkers.filter(m => activeSet.has(m.bank));
+    const sorted = visible
+      .map(({ marker, bank, data }) => ({
+        marker, bank, data,
+        dist: haversine(userLat, userLng, parseFloat(data.lat), parseFloat(data.lng)),
+      }))
+      .sort((a, b) => a.dist - b.dist)
+      .slice(0, 5);
+
+    const list = document.getElementById("nearby-list");
+    list.innerHTML = "";
+    sorted.forEach(({ marker, bank, data, dist }) => {
+      const item = document.createElement("div");
+      item.className = "nearby-item";
+      item.innerHTML = `
+        <div class="nearby-item-info">
+          <div class="nearby-item-bank">${bank}</div>
+          <div class="nearby-item-addr">${data["裝設地點"] || ""} ${data["地址"] || ""}</div>
+        </div>
+        <div class="nearby-item-dist">${formatDist(dist)}</div>
+      `;
+      item.addEventListener("click", () => {
+        map.setView([parseFloat(data.lat), parseFloat(data.lng)], 17);
+        marker.openPopup();
+      });
+      list.appendChild(item);
+    });
+
+    document.getElementById("nearby-panel").classList.add("visible");
+  }
+
+  let allMarkers = [];    // [{marker, bank, data}]
   let activeSet = new Set();
 
   function updateCount() {
@@ -160,6 +293,7 @@
       }
     });
     updateCount();
+    showNearby();
   }
 
   fetch("data/processed/atm_geocoded.json")
@@ -229,10 +363,42 @@
             <span class="address">${d["地址"] || ""}</span>
           </div>
         `);
-        allMarkers.push({ marker, bank });
+        allMarkers.push({ marker, bank, data: d });
       });
 
       redrawMarkers();
+
+      // 定位按鈕
+      document.getElementById("btn-locate").addEventListener("click", () => {
+        if (!navigator.geolocation) {
+          alert("你的瀏覽器不支援定位功能");
+          return;
+        }
+        const btn = document.getElementById("btn-locate");
+        btn.textContent = "定位中...";
+        btn.disabled = true;
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            userLat = pos.coords.latitude;
+            userLng = pos.coords.longitude;
+            setUserMarker(userLat, userLng);
+            map.setView([userLat, userLng], 15);
+            showNearby();
+            btn.textContent = "重新定位";
+            btn.disabled = false;
+          },
+          () => {
+            alert("定位失敗，請確認已允許瀏覽器存取位置");
+            btn.textContent = "定位";
+            btn.disabled = false;
+          }
+        );
+      });
+
+      // 關閉附近面板
+      document.getElementById("btn-close-nearby").addEventListener("click", () => {
+        document.getElementById("nearby-panel").classList.remove("visible");
+      });
     })
     .catch(err => {
       document.getElementById("map").innerHTML =

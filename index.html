@@ -387,11 +387,17 @@
             btn.textContent = "重新定位";
             btn.disabled = false;
           },
-          () => {
-            alert("定位失敗，請確認已允許瀏覽器存取位置");
+          err => {
+            const msg = {
+              1: "定位失敗：請允許瀏覽器存取位置（設定 → Safari → 位置）",
+              2: "定位失敗：裝置無法取得位置訊號，請稍後再試",
+              3: "定位失敗：逾時，請確認 GPS 或網路正常後重試",
+            }[err.code] || "定位失敗，請稍後再試";
+            alert(msg);
             btn.textContent = "定位";
             btn.disabled = false;
-          }
+          },
+          { timeout: 10000, maximumAge: 60000 }
         );
       });
 

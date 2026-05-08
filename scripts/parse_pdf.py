@@ -24,6 +24,26 @@ def parse():
                 if row and any(cell for cell in row):
                     rows.append(row)
 
+    # PDF 合併儲存格跨頁時，代號/銀行名稱會是 None 或空字串
+    # 向前填充：沿用上一筆的值
+    last_code = last_bank = ""
+    for row in rows:
+        if row[0]:
+            last_code = row[0]
+            last_bank = row[1]
+        else:
+            row[0] = last_code
+            row[1] = last_bank
+
+    # PDF 由 Excel 匯出，部分銀行的 VLOOKUP 公式錯誤，名稱欄印出 #N/A
+    # 用代號對照表補正
+    BANK_NAME_FIX = {
+        "012": "台北富邦商業銀行",
+    }
+    for row in rows:
+        if row[1] == "#N/A" and row[0] in BANK_NAME_FIX:
+            row[1] = BANK_NAME_FIX[row[0]]
+
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_PATH, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)

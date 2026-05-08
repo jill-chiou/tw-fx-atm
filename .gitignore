@@ -1,5 +1,6 @@
 # Data files
 data/
+!data/processed/atm_geocoded.json
 
 # Python
 __pycache__/

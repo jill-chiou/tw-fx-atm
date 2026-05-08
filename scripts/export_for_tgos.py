@@ -14,7 +14,7 @@ OUT_PATH = Path(__file__).parent.parent / "data" / "processed" / "tgos_input.csv
 with open(IN_PATH, encoding="utf-8-sig") as f:
     rows = list(csv.DictReader(f))
 
-with open(OUT_PATH, "w", newline="", encoding="cp950", errors="replace") as f:
+with open(OUT_PATH, "w", newline="", encoding="utf-8-sig") as f:
     writer = csv.writer(f)
     writer.writerow(["id", "Address", "Response_Address", "Response_X", "Response_Y"])
     for i, row in enumerate(rows):

@@ -14,7 +14,7 @@ OUT_PATH    = Path(__file__).parent.parent / "data" / "processed" / "atm_geocode
 
 # 讀 TGOS 結果，key = id（對應 atm_data.csv 的行號）
 tgos = {}
-with open(RESULT_PATH, encoding="cp950", errors="replace") as f:
+with open(RESULT_PATH, encoding="utf-8-sig") as f:
     for row in csv.DictReader(f):
         idx = int(row["id"])
         x = row.get("Response_X", "").strip()

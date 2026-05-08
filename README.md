@@ -2,7 +2,7 @@
 
 互動式地圖，整合台灣各銀行外幣提款機位置，可依銀行篩選、偵測目前位置。
 
-**Demo**：（上線後補）
+**Demo**：https://jill-chiou.github.io/tw-fx-atm
 
 ---
 
@@ -15,7 +15,7 @@
 | 工具 | 選用理由 |
 |------|----------|
 | **pdfplumber** | 針對表格擷取最可靠，不需要 Java 環境（tabula-py 需要），對中文 PDF 處理穩定 |
-| **NLSC Geocoding API** | 國土測繪中心免費政府 API，針對台灣中文地址準確度優於 Nominatim/OpenStreetMap |
+| **TGOS 批次地址比對** | 內政部官方地理資訊平台，針對台灣中文地址準確度優於 Nominatim/OpenStreetMap，無程式 API，上傳 CSV 等結果 |
 | **Leaflet.js** | 開源地圖套件，不需 API key，打包成靜態網站不需後端 |
 | **GitHub Pages** | 靜態網站免費部署，朋友可直接透過 URL 使用，無需安裝任何東西 |
 
@@ -41,5 +41,7 @@ tw-fx-atm/
 ## 開發進度
 
 - [x] Phase 0：技術選型與資料來源確認
-- [ ] Phase 1 MVP：PDF 解析 → Geocoding → Leaflet 地圖 + 銀行篩選 → GitHub Pages
-- [ ] Phase 2：爬取各銀行網站補充幣別資料（USD / JPY / EUR 等）
+- [x] Phase 1 MVP：PDF 解析 → TGOS Geocoding（1,952/1,962 筆）→ Leaflet 地圖 + 銀行篩選 → GitHub Pages
+- [x] Phase 1.5：裝置定位 + 附近 ATM 面板（Geolocation API + Haversine 距離排序）
+- [ ] Phase 2：UI 改善（RWD、篩選器整理、popup 排版）
+- [ ] Phase 3：爬取各銀行網站補充幣別資料（USD / JPY / EUR 等），同步驗證位置正確性

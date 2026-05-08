@@ -8,16 +8,9 @@
 - [ ] 地圖 popup 資訊排版優化
 - [ ] 整體配色 / 字體調整
 
-### 裝置位置 + 距離功能
-- [ ] 使用 Geolocation API 取得使用者位置
-- [ ] Haversine 公式計算與各 ATM 的距離
-- [ ] 畫面下方顯示「最近的 N 家」列表
-- [ ] 地圖自動移至使用者位置並標示
-
 ### 資料品質驗證
 - [ ] 自動範圍檢查：過濾座標不在台灣範圍內的異常筆（lat 21.9~25.3, lng 119.3~122.1）
 - [ ] 抽樣 Google Maps 比對：隨機抽 30 筆，用店名 + 位置確認現場是否真有 ATM
-- [ ] 銀行官網 / PDF 比對：做幣別功能時順便對齊，確認位置資訊一致
 
 ### 幣別篩選（資料蒐集難度高，與位置驗證合併進行）
 - [ ] 調查各家銀行幣別資訊的資料格式（網頁 / PDF / API）
@@ -30,6 +23,7 @@
 ## 已完成
 
 - [x] PDF 解析 → atm_data.csv（1,962 筆）
-- [x] Geocoding → atm_geocoded.json（1,939 筆，98.8%）
+- [x] TGOS 批次地址比對 → atm_geocoded.json（1,952/1,962 筆，98.5%）
 - [x] Leaflet 地圖 + 銀行篩選 UI
-- [x] GitHub Pages 部署（https://intomoonlight.github.io/tw-fx-atm）
+- [x] GitHub Pages 部署（https://jill-chiou.github.io/tw-fx-atm）
+- [x] 裝置定位（Geolocation API）+ 附近 ATM 面板（Haversine 距離排序）

@@ -217,7 +217,7 @@ function displayBank(record) {
 
 1. `git add index.html && git commit && git push`
 2. GitHub Repo → Settings → Pages → Branch: main / root → Save
-3. 等約 1 分鐘 → `https://intomoonlight.github.io/tw-fx-atm` 上線
+3. 等約 1 分鐘 → `https://jill-chiou.github.io/tw-fx-atm` 上線
 
 ---
 

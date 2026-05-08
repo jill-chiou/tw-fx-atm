@@ -17,7 +17,7 @@ GitHub Pages 是 GitHub 提供的**靜態網站托管服務**。把 HTML / CSS /
 1. GitHub Repo → **Settings** → 左側 **Pages**
 2. **Branch** 選 `main`，資料夾選 `/ (root)` → **Save**
 3. 等約 1-2 分鐘，頁面重整後出現：
-   > Your site is live at `https://intomoonlight.github.io/tw-fx-atm`
+   > Your site is live at `https://jill-chiou.github.io/tw-fx-atm`
 
 網址規則：`https://{GitHub帳號}.github.io/{repo名稱}`
 
@@ -27,7 +27,7 @@ GitHub Pages 是 GitHub 提供的**靜態網站托管服務**。把 HTML / CSS /
 
 | 項目 | 網址 |
 |------|------|
-| 公開地圖 | https://intomoonlight.github.io/tw-fx-atm |
+| 公開地圖 | https://jill-chiou.github.io/tw-fx-atm |
 | 顯示筆數 | 1,939 筆外幣 ATM 座標 |
 
 ---

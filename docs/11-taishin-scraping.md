@@ -48,7 +48,7 @@ data: branchCode=001, locale=
 
 分行代碼在 `qryWait('001')` 這樣的呼叫中提取，掃描 26 頁後共得到 **104 個代碼**（001–114，有跳號）。
 
-### 2.3 地址來源
+### 2.3 地址來源（v1）
 
 每個分行項目的 HTML 中有 Google Maps URL：
 
@@ -57,6 +57,75 @@ https://www.google.com.tw/maps/place/10491%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E
 ```
 
 從 URL path 的 percent-encode 部分可解碼出完整地址，從 `@lat,lng` 拿到座標。
+
+### 2.4 正確入口：ATM/補摺機據點（v2）
+
+v1 走的是「分行據點」路線，後來發現台新有專屬的 **ATM 查詢頁面**：
+
+```
+https://www.taishinbank.com.tw/TSB/service-and-support/atm-location/
+```
+
+該頁面有外幣服務的 checkbox 篩選（美元/日圓/人民幣/歐元/存外幣），且查詢結果是**機台層級**（含全家、萊爾富等非分行場所）。
+
+這個頁面的 HTML 透過 `<script src>` 載入了一個 JS 檔：
+
+```
+https://www.taishinbank.com.tw/eServiceA/misc/AboutLocationAtm.jsp?t={timestamp}
+```
+
+此 JSP 用 `document.writeln()` 注入整個 UI（包含 CSS、表單、分頁），並在底部嵌入查詢邏輯。其中的 `getCustomAtm()` 函數呼叫了真正的資料 API：
+
+```javascript
+// 注意 functoin 是原始碼的 typo，不是筆誤
+$.ajax({
+    url: "https://www.taishinbank.com.tw/eServiceA/misc/GetCustomATM.jsp",
+    type: "post",
+    data: {
+        city: city,          // 縣市名（空字串 = 全台）
+        region: region,      // 行政區（空字串 = 全部）
+        atmService: atmService, // 11=USD 12=JPY 13=CNY 16=EUR 17=存外幣
+        pageNum: pageNum,    // 頁碼，每頁 10 筆
+        functoinName: "CustomAtm",
+        latlon: latlon       // GPS 座標（離我最近功能用）
+    }
+});
+```
+
+### 2.5 GetCustomATM.jsp 回傳格式
+
+```json
+{
+  "customAtmList": [
+    {
+      "SITE_NAME": "全家-康福",
+      "CITY": "台北市",
+      "REGION": "內湖區",
+      "ADDRESS": "康樂街87號",
+      "LATITUDE": "25.069568",
+      "LONGITUDE": "121.618904",
+      "ATM_GET": "y",
+      "ATM_SAYE": "y",
+      "USD": "",
+      "JPY": "y",
+      "CNY": "",
+      "EUR": "",
+      "FOREIGN_SAVE": "",
+      "NFC": "y",
+      "BARRIERFREE": "y"
+    }
+  ],
+  "customAtmCount": 3524,
+  "maxNum": 353,
+  "pageNum": 1,
+  "startRow": 1,
+  "endRow": 10
+}
+```
+
+- `customAtmCount`：全台台新 ATM 總數（含台幣 ATM）= 3,524
+- `maxNum`：總頁數 = 353（每頁 10 筆）
+- 幣別欄位：`"y"` 表示支援，`""` 表示不支援
 
 ---
 

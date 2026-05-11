@@ -66,7 +66,7 @@
 | # | 銀行 | FISC 台數 | 累積覆蓋率 | 已知情況 | 建議做法 |
 |---|------|---------|---------|---------|---------|
 | 1 | 永豐商業銀行 | 91 | 36% | ✅ 完成（2026-05-10）：95 筆，merge 新增 73 筆 | — |
-| 2 | 台新國際商業銀行 | 1,026 | 89% | **官網完全無幣別資訊** | 另立專案追查；可試 Network tab 找 API |
+| 2 | 台新國際商業銀行 | 1,026 | 89% | ✅ 完成（2026-05-11）：1,011 筆機台層級，1026/1026 全覆蓋 | 詳見 `docs/11-taishin-scraping.md` |
 
 ### 其他
 
@@ -89,6 +89,7 @@
 | 華南 | XML (`/hncb/XML/ATM.xml`) | ✓ requests |
 | 永豐 | JSON API，需逐縣市/逐幣別查詢 | ✓ requests |
 | 中信 | PerimeterX bot 保護 + session token | ✗ 需瀏覽器 |
+| 台新 | POST GetCustomATM.jsp，機台層級，SSL verify=False | ✓ requests |
 
 ### 中信 CTBC 特殊發現
 
@@ -108,13 +109,17 @@
 ```
 data/processed/
 ├── atm_geocoded.json          # FISC 位置資料（1,960 筆，0 pending）
-├── atm_with_currencies.json   # merge 後含幣別（646 筆有幣別，1,314 筆 null）
+├── atm_with_currencies.json   # merge 後含幣別（1,140 筆有幣別，820 筆 null）★
+├── megabank_currencies.json   # 兆豐（118 筆）★ 已 commit
+├── taishinbank_currencies.json # 台新（1,011 筆，機台層級）★ 已 commit
+│
+│   ── 以下在 Mac 生成，尚未 push ──
 ├── skbank_currencies.json     # 新光（18 筆）
-├── megabank_currencies.json   # 兆豐（118 筆）
 ├── cathaybk_currencies.json   # 國泰世華（172 筆）
 ├── ctbc_currencies.json       # 中信（167 筆，FISC 直接套用）
 ├── esunbank_currencies.json   # 玉山（143 筆）
-└── hncb_currencies.json       # 華南（46 筆）
+├── hncb_currencies.json       # 華南（46 筆）
+└── sinopac_currencies.json    # 永豐（95 筆）
 
 scripts/
 ├── scrape_skbank.py
@@ -123,7 +128,12 @@ scripts/
 ├── scrape_ctbc.py
 ├── scrape_esunbank.py
 ├── scrape_hncb.py
-├── scrape_sinopac.py          # 已完成，待有網路權限時重跑
-├── merge_currencies.py        # 每爬完一家，重跑此腳本即可更新
+├── scrape_sinopac.py
+├── scrape_taishinbank.py      # 新增（機台層級，GetCustomATM.jsp）★
+├── merge_currencies.py        # 已更新：空 branch guard + fallback 邏輯 ★
 └── update_from_fisc.py        # 月更腳本（CCR 自動執行）
 ```
+
+> ★ = 2026-05-11 本 session 新增/修改，已 commit。
+> Mac 上的 5 家幣別 json 需在 Mac pull 最新後 `git add` + push，才能在 Windows 取用。
+> 完成後覆蓋率預計從 58% → ~89%。

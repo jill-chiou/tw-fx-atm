@@ -31,8 +31,15 @@ atm_geocoded.json               ← 主表（1,960 筆，含 lat/lng）
    ├── hncb_currencies.json      │
    ├── sinopac_currencies.json   │
    ├── taishinbank_currencies.json │
-   ├── bot_currencies.json       │
-   └── firstbank_currencies.json ─┘
+   ├── bot_currencies.json        │
+   ├── firstbank_currencies.json  │
+   ├── fubon_currencies.json      │
+   ├── scsb_currencies.json       │
+   ├── tcb_currencies.json        │
+   ├── landbank_currencies.json   │
+   ├── yuanta_currencies.json     │
+   ├── tbb_currencies.json        │
+   └── bankchb_currencies.json   ─┘
           ↓
 atm_with_currencies.json        ← 最終完整表（前端讀這個）
 ```
@@ -563,6 +570,123 @@ FISC 與官網地址完全一致，直接套用 FISC 資料可信。
 | 屏東分行 | JPY | — |
 
 > 規律：永豐的 FISC「裝設地點」格式疑似包含額外文字，導致子字串比對失敗。建議逐一比對地址來確認是否同地點。
+
+---
+
+### 台北富邦商業銀行（代號 012）
+
+- **爬蟲腳本**：`scripts/scrape_fubon.py`
+- **輸出**：`data/processed/fubon_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：直接套用 FISC（官網調查確認統一幣別）
+- **FISC 筆數**：39 / **比對結果**：39/39（100%）
+
+**調查結論：統一 USD / JPY**
+
+- 官網明確說明「外幣ATM提供美金面額50元、日圓面額1萬元」
+- 篩選選項只有一個「外幣ATM(美金,日圓)」，無更細分類
+- 資料端點為 `/Fubon_Portal/banking/locations/branch_newVersion.jsp?type=fc_atm`，需 session cookie 才能存取，但幣別已確認統一，不需爬取
+
+---
+
+### 上海商業儲蓄銀行（代號 011）
+
+- **爬蟲腳本**：`scripts/scrape_scsb.py`
+- **輸出**：`data/processed/scsb_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：手動記錄（官網說明頁逐台列出）
+- **FISC 筆數**：2 / **比對結果**：2/2（100%）
+
+**逐台幣別（兩台不同）：**
+
+| FISC 裝設地點 | 地址 | 幣別 |
+|------------|------|------|
+| 營業部行外無人銀行 | 中山北路二段155號1樓 | USD / JPY / HKD / CNY |
+| 儲蓄部行內無人銀行 | 建國北路二段120號 | USD / JPY |
+
+官網以「國外部」/「儲蓄部」稱呼，地址與 FISC 完全吻合。
+
+---
+
+### 合作金庫商業銀行（代號 006）
+
+- **爬蟲腳本**：`scripts/scrape_tcb.py`
+- **輸出**：`data/processed/tcb_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：直接套用 FISC
+- **FISC 筆數**：15 / **比對結果**：15/15（100%）
+
+**調查結論：保守 USD / JPY**
+
+- 官網篩選只有「美金」「日幣」兩個選項
+- 備註「鈔券幣別依各分行放置為準」→ 是備料（實體鈔券庫存）問題，非系統幣別差異
+- 保守標記 USD/JPY
+
+---
+
+### 臺灣土地銀行（代號 005）
+
+- **爬蟲腳本**：`scripts/scrape_landbank.py`
+- **輸出**：`data/processed/landbank_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：直接套用 FISC
+- **FISC 筆數**：12 / **比對結果**：12/12（100%）
+
+**調查結論：保守 USD / JPY**
+
+- 官網 ATM 查詢頁無「外幣」篩選功能，無幣別資訊
+- FAQ 外幣業務列出換匯幣別（USD/JPY/HKD/EUR/AUD/CAD/CNY），但為臨櫃換匯，非 ATM
+- 第三方比率網（findrate.tw）只列 9 台，少於 FISC 的 12 筆（資料較舊）
+- 保守標記 USD/JPY
+
+---
+
+### 元大商業銀行（代號 806）
+
+- **爬蟲腳本**：`scripts/scrape_yuanta.py`
+- **輸出**：`data/processed/yuanta_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：直接套用 FISC
+- **FISC 筆數**：7 / **比對結果**：7/7（100%）
+
+**調查結論：保守 USD / JPY**
+
+- 官網外幣提款機頁（`spotMap/list.do?type=5`）和外幣存款說明頁均回傳 403，反爬機制明顯
+- 搜尋結果顯示元大外幣 ATM 提領限額：USD 1,000 / JPY 100,000，確認有 USD/JPY
+- 無法取得完整幣別清單，保守標記 USD/JPY
+
+---
+
+### 臺灣中小企業銀行（代號 050）
+
+- **爬蟲腳本**：`scripts/scrape_tbb.py`
+- **輸出**：`data/processed/tbb_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：直接套用 FISC
+- **FISC 筆數**：6 / **比對結果**：6/6（100%）
+
+**調查結論：保守 USD / JPY**
+
+- 官網 ATM 查詢頁有「外幣提款」篩選，可列出 6 個據點
+- 篩選結果只顯示地點與功能標籤，無幣別細節
+- 官網無任何說明文字標示外幣 ATM 支援的具體幣別
+- 保守標記 USD/JPY
+
+---
+
+### 彰化商業銀行（代號 009）
+
+- **爬蟲腳本**：`scripts/scrape_bankchb.py`
+- **輸出**：`data/processed/bankchb_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：直接套用 FISC
+- **FISC 筆數**：1 / **比對結果**：1/1（100%）
+
+**調查結論：保守 USD / JPY**
+
+- 只有 1 台，優先級低，未深入調查
+- 官網 ATM 查詢為 XML 框架結構，無法直接取得幣別資訊
+- 保守標記 USD/JPY
 
 ---
 

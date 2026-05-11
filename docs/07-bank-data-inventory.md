@@ -34,14 +34,14 @@
 | 7 | 華南商業銀行 | 47 | https://www.hncb.com.tw/wps/portal/HNCB/locations/atm | 動態表格 | 不確定 | Playwright | 有 USD/CNY/HKD/JPY 篩選；另有 PDF 清單可下載（無幣別） |
 | 8 | 臺灣銀行 | 44 | https://www.bot.com.tw/tw/personal-banking/foreign-exchange/foreign-currency-cash-exchange/foreign-currency-ATM | 靜態說明頁 | **Y（統一）** | 直接套用 FISC | 官網明確說明全行統一：USD/HKD/JPY/CNY；無 EUR。官網地圖（~20 筆）比 FISC（44 筆）少，FISC 更完整（含桃園機場 6 台等）|
 | 9 | 第一商業銀行 | 42 | https://www.firstbank.com.tw/sites/fcb/ATMNearYou | 動態地圖 + REST API | **Y（保守）** | requests POST API | API endpoint: `/sites/REST/controller/ATMNearYouRevCTL/searchATM`，免 bot 保護。兩種機型：外幣提款（5）+ 臺外幣二合一（37）= 42 台。API 不回傳幣別，保守標記 USD/JPY |
-| 10 | 台北富邦商業銀行 | 39 | https://www.fubon.com/banking/locations/locations.htm?type=atm&zoned=0&tab=1 | 動態地圖 | N | Playwright | 僅美金/日幣兩種；無幣別資訊 |
+| 10 | 台北富邦商業銀行 | 39 | https://www.fubon.com/banking/locations/locations.htm?tab=branch | 動態地圖 + JSP API | **Y（統一）** | 直接套用 FISC | 官網明確：「外幣ATM提供美金面額50元、日圓面額1萬元」。篩選只有「外幣ATM(美金,日圓)」一項。JSP API 需 session，但幣別已確認統一 USD/JPY |
 | 11 | 臺灣新光商業銀行 | 29 | https://www.skbank.com.tw/DE-FCATM/ | **靜態 HTML 表格** | **Y** | requests + BeautifulSoup | **最易爬取**，約 15-20 個據點，幣別逐台列出（USD/JPY/CNY/HKD） |
-| 12 | 合作金庫商業銀行 | 15 | https://www.tcb-bank.com.tw/about-tcb/info/locations/foreign-exchange?tab=3 | 動態表格 | 不確定 | Playwright | 備註「幣別依各分行放置為準」；有美金/日幣篩選 |
-| 13 | 臺灣土地銀行 | 12 | https://www.landbank.com.tw/Location/Atm/ATM%E4%BD%8D%E7%BD%AE | 動態地圖 | N | — | 無外幣篩選功能，不顯示幣別，優先級低 |
-| 14 | 元大商業銀行 | 7 | https://www.yuantabank.com.tw/bank/spotMap/list.do?type=5 | 動態（403） | 不確定 | Playwright（高風險） | 403 封鎖 HTTP 請求，反爬機制明顯 |
-| 15 | 臺灣中小企業銀行 | 6 | https://www.tbb.com.tw/zh-tw/about/intro/location/atm | 動態篩選 | N | — | 有「外幣提款」篩選但無幣別資訊，台數少 |
-| 16 | 上海商業儲蓄銀行 | 2 | https://www.scsb.com.tw/content/about/about05_a.html | 動態篩選 | N | — | 只有 2 台，優先級極低 |
-| 17 | 彰化商業銀行 | 1 | https://www.bankchb.com/frontend/atm.jsp | 動態（XML） | 不確定 | — | 只有 1 台，XML 框架結構，優先級極低 |
+| 12 | 合作金庫商業銀行 | 15 | https://www.tcb-bank.com.tw/about-tcb/info/locations/foreign-exchange?tab=3 | 動態表格 | **Y（保守）** | 直接套用 FISC | 篩選只有「美金」「日幣」兩選項；備註「幣別依各分行放置」是備料問題非系統限制。保守標記 USD/JPY |
+| 13 | 臺灣土地銀行 | 12 | https://www.landbank.com.tw/Location/Atm/ATM%E4%BD%8D%E7%BD%AE | 動態地圖 | **Y（保守）** | 直接套用 FISC | 官網 ATM 頁無外幣篩選功能，無幣別資訊。FAQ 外幣服務列多種幣別但為換匯非 ATM。findrate.tw 只列 9 台（FISC 有 12）。保守標記 USD/JPY |
+| 14 | 元大商業銀行 | 7 | https://www.yuantabank.com.tw/bank/spotMap/list.do?type=5 | 動態（403） | **Y（保守）** | 直接套用 FISC | 網站全面 403，requests 無法存取。搜尋結果顯示提領上限 USD 1,000 / JPY 100,000，確認有 USD/JPY。保守標記 USD/JPY |
+| 15 | 臺灣中小企業銀行 | 6 | https://www.tbb.com.tw/zh-tw/about/intro/location/atm | 動態篩選 | **Y（保守）** | 直接套用 FISC | 有「外幣提款」篩選，可列出據點，但無幣別細節說明。保守標記 USD/JPY |
+| 16 | 上海商業儲蓄銀行 | 2 | https://www.scsb.com.tw/content/about/about05_a.html | 靜態說明頁 | **Y（逐台）** | 手動記錄 | 官網明確列出兩台各自幣別：國外部（中山北路二段155號）USD/JPY/HKD/CNY；儲蓄部（建國北路二段120號）USD/JPY |
+| 17 | 彰化商業銀行 | 1 | https://www.bankchb.com/frontend/atm.jsp | 動態（XML） | **Y（保守）** | 直接套用 FISC | 只有 1 台，XML 框架結構，未深入調查。保守標記 USD/JPY |
 
 ---
 
@@ -145,9 +145,10 @@ FISC 同銀行共 29 筆，以子字串比對（官網 branch ⊂ FISC 裝設地
 
 ### 累積覆蓋率（2026-05-11 現況）
 
-| 完成銀行 | 幣別有資料台數 | 覆蓋率 |
-|---------|-------------|--------|
-| 台新 + 兆豐 + 國泰世華 + 中信 + 玉山 + 華南 + 永豐 + 新光（2026-05-11 commit）| 1,140 | 58% |
-| + 臺灣銀行 | 1,184 | 60% |（fallback 合計 1,799，91%）
-| + 第一商業銀行 | 1,226 | 63% |（fallback 合計 1,839，93%）
-| 剩餘缺口（台北富邦 39 + 合庫 15 + 土銀 12 + 元大 7 + 企銀 6 + 上海商銀 2 + 彰銀 1）| — | ~82 台 |
+| 完成銀行 | fallback 含幣別合計 | 覆蓋率 |
+|---------|-----------------|--------|
+| 2026-05-11 Mac session 起點 | 1,751 | 89% |
+| + 臺灣銀行、第一商業銀行 | 1,839 | 93% |
+| + 台北富邦、上海商銀 | 1,878 | 95% |
+| + 合庫、土銀、元大、企銀、彰銀（全 17 家完成）| **1,915** | **97%** |
+| 剩餘 45 筆 | merge 無法對齊（行外 ATM、名稱格式不符）| — |

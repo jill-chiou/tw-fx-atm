@@ -1,0 +1,226 @@
+[
+  {
+    "bank": "新光銀行",
+    "branch": "世貿分行",
+    "currencies": [
+      "USD",
+      "JPY",
+      "CNY",
+      "HKD"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000,
+      "CNY": 100,
+      "HKD": 100
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "南東分行",
+    "currencies": [
+      "USD",
+      "JPY",
+      "CNY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000,
+      "CNY": 100
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "新板分行",
+    "currencies": [
+      "USD",
+      "JPY",
+      "CNY"
+    ],
+    "denominations": {
+      "USD": 50,
+      "JPY": 10000,
+      "CNY": 100
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "天母傑仕堡",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "台北摩天大樓1樓",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "復興分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "新金湖分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "新竹分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "桃園分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "北三重分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "台中分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "古亭分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "敦南分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "向上分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "屏東分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "七賢分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "六家分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  },
+  {
+    "bank": "新光銀行",
+    "branch": "西園分行",
+    "currencies": [
+      "USD",
+      "JPY"
+    ],
+    "denominations": {
+      "USD": 100,
+      "JPY": 10000
+    }
+  }
+]

@@ -1,0 +1,1766 @@
+[
+  {
+    "bank": "玉山銀行",
+    "branch": "士林分行",
+    "address": "台北市士林區中正路266號",
+    "lat": 25.095114,
+    "lng": 121.524267,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "天母分行",
+    "address": "台北市士林區忠誠路一段99號",
+    "lat": 25.104734,
+    "lng": 121.528483,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "建成分行",
+    "address": "台北市大同區太原路117號",
+    "lat": 25.052784,
+    "lng": 121.516003,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "仁愛分行",
+    "address": "台北市大安區仁愛路四段376號之1",
+    "lat": 25.037324,
+    "lng": 121.555651,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "和平分行",
+    "address": "台北市大安區和平東路一段 216 號",
+    "lat": 25.026097,
+    "lng": 121.53186,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "忠孝分行",
+    "address": "台北市大安區忠孝東路四段319號",
+    "lat": 25.041606,
+    "lng": 121.556116,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "東門分行",
+    "address": "台北市大安區信義路二段134號",
+    "lat": 25.033782,
+    "lng": 121.528341,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "復興分行",
+    "address": "台北市大安區復興南路一段127號",
+    "lat": 25.043181,
+    "lng": 121.544065,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "大安分行",
+    "address": "台北市大安區復興南路二段237號1樓",
+    "lat": 25.025896,
+    "lng": 121.543666,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "敦南分行",
+    "address": "台北市大安區敦化南路一段339號",
+    "lat": 25.033609,
+    "lng": 121.549211,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "台大分行",
+    "address": "台北市大安區羅斯福路四段1號",
+    "lat": 25.014739,
+    "lng": 121.537798,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "國立台灣大學第二行政大樓",
+    "address": "台北市大安區羅斯福路四段1號",
+    "lat": 25.015209,
+    "lng": 121.536758,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "中山分行",
+    "address": "台北市中山區中山北路一段145 號",
+    "lat": 25.051979,
+    "lng": 121.522851,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "民生分行",
+    "address": "台北市中山區民生東路三段49號",
+    "lat": 25.058063,
+    "lng": 121.54004,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "民權分行",
+    "address": "台北市中山區民權西路48號",
+    "lat": 25.062605,
+    "lng": 121.520661,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "城東分行",
+    "address": "台北市中山區松江路111號",
+    "lat": 25.051476,
+    "lng": 121.533185,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新生分行",
+    "address": "台北市中正區忠孝東路二段85號",
+    "lat": 25.04313,
+    "lng": 121.53055,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "台北分行",
+    "address": "台北市中山區南京東路三段68號",
+    "lat": 25.051788,
+    "lng": 121.538667,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "長春分行",
+    "address": "台北市中山區復興北路 178 號",
+    "lat": 25.054246,
+    "lng": 121.543802,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "城中分行",
+    "address": "台北市中正區武昌街一段77號",
+    "lat": 25.04425,
+    "lng": 121.509681,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "古亭分行",
+    "address": "台北市中正區南昌路二段 220 號",
+    "lat": 25.023872,
+    "lng": 121.524491,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "內湖分行",
+    "address": "台北市內湖區內湖路一段360巷8號",
+    "lat": 25.080787,
+    "lng": 121.570288,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新湖分行",
+    "address": "台北市內湖區民權東路六段27號1樓",
+    "lat": 25.068816,
+    "lng": 121.584014,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "成功分行",
+    "address": "台北市內湖區成功路四段99號",
+    "lat": 25.082647,
+    "lng": 121.593273,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "東湖分行",
+    "address": "台北市內湖區金湖路421號",
+    "lat": 25.073282,
+    "lng": 121.604977,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "木柵分行",
+    "address": "台北市文山區木柵路三段129號",
+    "lat": 24.989106,
+    "lng": 121.568648,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "石牌分行",
+    "address": "台北市北投區石牌路一段1號",
+    "lat": 25.112825,
+    "lng": 121.509459,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "營業部",
+    "address": "台北市松山區民生東路三段117號",
+    "lat": 25.057974,
+    "lng": 121.546621,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "玉山銀行第二總部大樓",
+    "address": "台北市松山區敦化北路313巷2號",
+    "lat": 25.05898,
+    "lng": 121.55016,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南京東路分行",
+    "address": "台北市松山區南京東路五段89號",
+    "lat": 25.051686,
+    "lng": 121.560128,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "中崙分行",
+    "address": "台北市松山區敦化南路一段2之1號",
+    "lat": 25.048047,
+    "lng": 121.54854,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "松山分行",
+    "address": "台北市信義區永吉路363號",
+    "lat": 25.045664,
+    "lng": 121.576657,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南山廣場",
+    "address": "台北市信義區松仁路100號2樓",
+    "lat": 25.034455,
+    "lng": 121.56788,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "信義分行",
+    "address": "台北市信義區信義路五段100之2號",
+    "lat": 25.032633,
+    "lng": 121.565928,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "基隆路分行",
+    "address": "台北市信義區基隆路二段41號",
+    "lat": 25.031113,
+    "lng": 121.558665,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南港分行",
+    "address": "台北市南港區三重路66之1號",
+    "lat": 25.057238,
+    "lng": 121.614584,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "家樂福桂林店",
+    "address": "台北市萬華區桂林路1號",
+    "lat": 25.037703,
+    "lng": 121.506182,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "三和分行",
+    "address": "新北市三重區三和路四段380號",
+    "lat": 25.078813,
+    "lng": 121.482544,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "玉山希望大樓",
+    "address": "新北市三重區中興北街42巷17弄10號",
+    "lat": 25.049075,
+    "lng": 121.46937,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "東三重分行",
+    "address": "新北市三重區正義北路132號",
+    "lat": 25.065765,
+    "lng": 121.496633,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "二重分行",
+    "address": "新北市三重區光復路一段85之1號",
+    "lat": 25.050501,
+    "lng": 121.472468,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "三重分行",
+    "address": "新北市三重區重新路四段65號",
+    "lat": 25.057089,
+    "lng": 121.487108,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南土城分行",
+    "address": "新北市土城區中央路四段2號",
+    "lat": 24.963261,
+    "lng": 121.426029,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "土城分行",
+    "address": "新北市土城區裕民路116號",
+    "lat": 24.986316,
+    "lng": 121.451132,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "中和分行",
+    "address": "新北市中和區橋和路13號",
+    "lat": 25.00542,
+    "lng": 121.48896,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "連城分行",
+    "address": "新北市中和區中正路702號",
+    "lat": 24.996436,
+    "lng": 121.486157,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "泰和分行",
+    "address": "新北市中和區中和路42號",
+    "lat": 25.001217,
+    "lng": 121.500118,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南勢角分行",
+    "address": "新北市中和區景新街336號",
+    "lat": 24.990888,
+    "lng": 121.511864,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "五股分行",
+    "address": "新北市新莊區五權一路16號",
+    "lat": 25.06492,
+    "lng": 121.45711,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "雙和分行",
+    "address": "新北市永和區中山路一段320號",
+    "lat": 25.007034,
+    "lng": 121.506687,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "永安分行",
+    "address": "新北市永和區中和路445號",
+    "lat": 25.001383,
+    "lng": 121.50977,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "汐止分行",
+    "address": "新北市汐止區大同路一段237號",
+    "lat": 25.058564,
+    "lng": 121.634411,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "埔墘分行",
+    "address": "新北市板橋區三民路二段188號",
+    "lat": 25.014836,
+    "lng": 121.478971,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新板特區分行",
+    "address": "新北市板橋區中山路一段182號",
+    "lat": 25.012861,
+    "lng": 121.46812,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "光復分行",
+    "address": "新北市板橋區中山路二段101號",
+    "lat": 25.01628,
+    "lng": 121.474445,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "板橋分行",
+    "address": "新北市板橋區文化路二段90號",
+    "lat": 25.02563,
+    "lng": 121.469723,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "板新分行",
+    "address": "新北市板橋區遠東路5號1樓",
+    "lat": 24.998264,
+    "lng": 121.457276,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "東林口分行",
+    "address": "新北市林口區文化三路一段403號",
+    "lat": 25.074052,
+    "lng": 121.367048,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新莊副都心分行",
+    "address": "新北市新莊區中平路408號",
+    "lat": 25.054534,
+    "lng": 121.44486,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "北新分行",
+    "address": "新北市新店區北新路一段10號",
+    "lat": 24.965446,
+    "lng": 121.540887,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新店分行",
+    "address": "新北市新店區民權路69號",
+    "lat": 24.982897,
+    "lng": 121.538917,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新莊分行",
+    "address": "新北市新莊區中正路393號",
+    "lat": 25.03455,
+    "lng": 121.445709,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新樹分行",
+    "address": "新北市新莊區民安西路113號",
+    "lat": 25.018124,
+    "lng": 121.426741,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "北新莊分行",
+    "address": "新北市新莊區思源路336號",
+    "lat": 25.051045,
+    "lng": 121.460366,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "迴龍分行",
+    "address": "新北市樹林區三俊街114號",
+    "lat": 25.015372,
+    "lng": 121.415129,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "樹林分行",
+    "address": "新北市樹林區中山路一段103號",
+    "lat": 24.990861,
+    "lng": 121.423233,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "三峽分行",
+    "address": "新北市樹林區學成路526號",
+    "lat": 24.945272,
+    "lng": 121.379889,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "蘆洲分行",
+    "address": "新北市蘆洲區長榮路50號",
+    "lat": 25.083258,
+    "lng": 121.462894,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "竹南分行",
+    "address": "苗栗縣竹南鎮民族街87號",
+    "lat": 24.686669,
+    "lng": 120.878389,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "後龍分行",
+    "address": "苗栗縣後龍鎮中山路2號",
+    "lat": 24.616115,
+    "lng": 120.788704,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "頭份分行",
+    "address": "苗栗縣頭份市中央路56號",
+    "lat": 24.688274,
+    "lng": 120.906408,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "八德分行",
+    "address": "桃園市八德區介壽路一段815號1樓",
+    "lat": 24.962017,
+    "lng": 121.300079,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "青埔特區分行",
+    "address": "桃園市中壢區領航南路三段188號",
+    "lat": 25.009864,
+    "lng": 121.219988,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "中壢分行",
+    "address": "桃園市中壢區中山路126號",
+    "lat": 24.955786,
+    "lng": 121.225272,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "中原分行",
+    "address": "桃園市中壢區中北路二段239號",
+    "lat": 24.953227,
+    "lng": 121.229202,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "壢新分行",
+    "address": "桃園市平鎮區民族路二段33號",
+    "lat": 24.957296,
+    "lng": 121.207514,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "桃園分行",
+    "address": "桃園市桃園區三民路二段156號",
+    "lat": 25.000992,
+    "lng": 121.31373,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "中路特區分行",
+    "address": "桃園市桃園區正光路423號",
+    "lat": 25.00112,
+    "lng": 121.29433,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "桃鶯分行",
+    "address": "桃園市桃園區桃鶯路445之1號",
+    "lat": 24.976597,
+    "lng": 121.323228,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "藝文分行",
+    "address": "桃園市桃園區新埔六街181號",
+    "lat": 25.015584,
+    "lng": 121.301877,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "楊梅分行",
+    "address": "桃園市楊梅區中山路140號",
+    "lat": 24.906947,
+    "lng": 121.144701,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "林口分行",
+    "address": "桃園市龜山區復興一路230號",
+    "lat": 25.057333,
+    "lng": 121.365109,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南崁分行",
+    "address": "桃園市蘆竹區中正路346號",
+    "lat": 25.049699,
+    "lng": 121.290999,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "光華分行",
+    "address": "新竹市北區光華街64之2號",
+    "lat": 24.816164,
+    "lng": 120.972402,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新竹分行",
+    "address": "新竹市東區民族路34號",
+    "lat": 24.804851,
+    "lng": 120.972687,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "竹科分行",
+    "address": "新竹市東區光復路一段569號",
+    "lat": 24.785424,
+    "lng": 121.012008,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "國立清華大學旺宏館",
+    "address": "新竹市東區光復路二段101號",
+    "lat": 24.796454,
+    "lng": 120.996672,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "竹北分行",
+    "address": "新竹縣竹北市光明一路145號",
+    "lat": 24.830366,
+    "lng": 121.015369,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "六家分行",
+    "address": "新竹縣竹北市嘉豐南路一段116號",
+    "lat": 24.809539,
+    "lng": 121.032979,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新豐分行",
+    "address": "新竹縣新豐鄉新興路185之1號",
+    "lat": 24.868995,
+    "lng": 120.995028,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "大里分行",
+    "address": "台中市大里區國光路二段407號",
+    "lat": 24.108815,
+    "lng": 120.6796,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "大雅分行",
+    "address": "台中市大雅區民興街35號",
+    "lat": 24.225072,
+    "lng": 120.647592,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "太平分行",
+    "address": "台中市太平區中興路115之1號",
+    "lat": 24.126788,
+    "lng": 120.715257,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "文心分行",
+    "address": "台中市北屯區文心路四段281號",
+    "lat": 24.173198,
+    "lng": 120.679186,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "北屯分行",
+    "address": "台中市北屯區文心路四段809號",
+    "lat": 24.171697,
+    "lng": 120.691403,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "中工分行",
+    "address": "台中市西屯區工業區一路60之1號",
+    "lat": 24.179188,
+    "lng": 120.614457,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "台中分行",
+    "address": "台中市西屯區市政路386號",
+    "lat": 24.158803,
+    "lng": 120.64027,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "西屯分行",
+    "address": "台中市西屯區永福路138號",
+    "lat": 24.1851,
+    "lng": 120.621387,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "水湳分行",
+    "address": "台中市西屯區河南路二段209號1樓",
+    "lat": 24.17556,
+    "lng": 120.65037,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "五權分行",
+    "address": "台中市西區五權路2之106號",
+    "lat": 24.139146,
+    "lng": 120.665932,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "沙鹿分行",
+    "address": "台中市沙鹿區中山路522號",
+    "lat": 24.248917,
+    "lng": 120.565104,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "大墩分行",
+    "address": "台中市南屯區大墩路768號",
+    "lat": 24.154362,
+    "lng": 120.649919,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南屯分行",
+    "address": "台中市南屯區五權西路二段667號",
+    "lat": 24.141786,
+    "lng": 120.63897,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "烏日分行",
+    "address": "台中市南區復興路一段201號",
+    "lat": 24.11177,
+    "lng": 120.649993,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "豐原分行",
+    "address": "台中市豐原區中正路543號",
+    "lat": 24.250224,
+    "lng": 120.709751,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "草屯分行",
+    "address": "南投縣草屯鎮中正路767號",
+    "lat": 23.981558,
+    "lng": 120.684485,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "員林分行",
+    "address": "彰化縣員林市中山路二段508號",
+    "lat": 23.971756,
+    "lng": 120.571655,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "彰化分行",
+    "address": "彰化縣彰化市曉陽路1號",
+    "lat": 24.071844,
+    "lng": 120.542536,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "台南分行",
+    "address": "台南市中西區民生路二段76號",
+    "lat": 22.995265,
+    "lng": 120.197071,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "仁德分行",
+    "address": "台南市仁德區中山路295號",
+    "lat": 22.970474,
+    "lng": 120.260455,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "鹽行分行",
+    "address": "台南市永康區中正北路56號",
+    "lat": 23.041404,
+    "lng": 120.239101,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "南永康分行",
+    "address": "台南市永康區中華路198號",
+    "lat": 23.004631,
+    "lng": 120.235627,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "永康分行",
+    "address": "台南市永康區永大路二段1518號",
+    "lat": 23.025092,
+    "lng": 120.261069,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "安南分行",
+    "address": "台南市安南區安和路三段159號",
+    "lat": 23.047501,
+    "lng": 120.218145,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "佳里分行",
+    "address": "台南市佳里區延平路351號",
+    "lat": 23.162622,
+    "lng": 120.178139,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "東台南分行",
+    "address": "台南市東區崇學路108號",
+    "lat": 22.980398,
+    "lng": 120.22415,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "金華分行",
+    "address": "台南市南區金華路二段58號",
+    "lat": 22.976788,
+    "lng": 120.19117,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "新營分行",
+    "address": "台南市新營區民治路336號",
+    "lat": 23.306182,
+    "lng": 120.30332,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "斗六分行",
+    "address": "雲林縣斗六市中正路18號",
+    "lat": 23.710233,
+    "lng": 120.544492,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "嘉義分行",
+    "address": "嘉義市西區新榮路242號",
+    "lat": 23.480504,
+    "lng": 120.444118,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "東嘉義分行",
+    "address": "嘉義市東區垂楊路111號",
+    "lat": 23.474335,
+    "lng": 120.458137,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "朴子分行",
+    "address": "嘉義縣朴子市山通路37號",
+    "lat": 23.465533,
+    "lng": 120.244889,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "東港分行",
+    "address": "屏東縣東港鎮中山路75號",
+    "lat": 22.46695,
+    "lng": 120.449572,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "屏東分行",
+    "address": "屏東縣屏東市永福路9號",
+    "lat": 22.671312,
+    "lng": 120.487132,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "北高雄分行",
+    "address": "高雄市三民區明誠二路118號",
+    "lat": 22.660628,
+    "lng": 120.312164,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "澄清分行",
+    "address": "高雄市三民區陽明路457號",
+    "lat": 22.646349,
+    "lng": 120.342631,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "大昌分行",
+    "address": "高雄市三民區鼎中路343號",
+    "lat": 22.666132,
+    "lng": 120.319277,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "後庄分行",
+    "address": "高雄市大寮區鳳屏一路476號",
+    "lat": 22.636332,
+    "lng": 120.393131,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "小港分行",
+    "address": "高雄市小港區康莊路47號",
+    "lat": 22.568483,
+    "lng": 120.356911,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "左營分行",
+    "address": "高雄市左營區博愛三路12號",
+    "lat": 22.671001,
+    "lng": 120.304068,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "岡山分行",
+    "address": "高雄市岡山區壽天路99號",
+    "lat": 22.795508,
+    "lng": 120.291787,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "林園分行",
+    "address": "高雄市林園區林園北路343號",
+    "lat": 22.50977,
+    "lng": 120.394539,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "前鎮分行",
+    "address": "高雄市前鎮區瑞隆路474號",
+    "lat": 22.605503,
+    "lng": 120.329156,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "高雄分行",
+    "address": "高雄市苓雅區四維四路22之2號",
+    "lat": 22.616722,
+    "lng": 120.301844,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "苓雅分行",
+    "address": "高雄市苓雅區和平二路305號",
+    "lat": 22.615893,
+    "lng": 120.322439,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "七賢分行",
+    "address": "高雄市新興區林森一路233號",
+    "lat": 22.633925,
+    "lng": 120.304764,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "楠梓分行",
+    "address": "高雄市楠梓區軍校路980號",
+    "lat": 22.713982,
+    "lng": 120.290112,
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "鳳山分行",
+    "address": "高雄市鳳山區五甲一路100號",
+    "lat": 22.620955,
+    "lng": 120.356864,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "台東分行",
+    "address": "台東縣台東市中正路239號",
+    "lat": 22.755372,
+    "lng": 121.153612,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "羅東分行",
+    "address": "宜蘭縣羅東鎮公正路154號",
+    "lat": 24.678847,
+    "lng": 121.769301,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "花蓮分行",
+    "address": "花蓮縣花蓮市中山路161號",
+    "lat": 23.976114,
+    "lng": 121.610063,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "基隆分行",
+    "address": "基隆市中正區義一路122號",
+    "lat": 25.134554,
+    "lng": 121.746849,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "玉山銀行",
+    "branch": "澎湖分行",
+    "address": "澎湖縣馬公市民生路2號",
+    "lat": 23.567441,
+    "lng": 119.567812,
+    "currencies": [
+      "CNY",
+      "JPY",
+      "USD"
+    ]
+  }
+]

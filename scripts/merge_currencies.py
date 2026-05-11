@@ -26,6 +26,7 @@ SCRAPED_FILES = [
     ROOT / "data/processed/esunbank_currencies.json",
     ROOT / "data/processed/taishinbank_currencies.json",
     ROOT / "data/processed/bot_currencies.json",
+    ROOT / "data/processed/firstbank_currencies.json",
 ]
 
 # 手動 mapping: (銀行名稱片段, API branch) → FISC 裝設地點

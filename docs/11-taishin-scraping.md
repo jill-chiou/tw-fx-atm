@@ -146,22 +146,30 @@ Merge 邏輯是用分行名稱（如「敦南分行」）當子字串，比對 F
 
 ---
 
-## 6. 輸出檔案
+## 6. 輸出檔案（v2 機台層級版）
 
 ```
 data/processed/taishinbank_currencies.json
 ```
 
-- 共 **102 筆**（2 筆無外幣服務），74 筆有地址
-- 幣別：AUD/CAD/CNY/EUR/HKD/JPY/NZD/SGD/USD（主要分行 9 種）或 CNY/EUR/HKD/JPY/USD（一般分行 5 種）
+- 共 **1,011 筆**外幣 ATM（從 3,524 台全部台新 ATM 中篩選）
+- 幣別分布：JPY 999、USD 166、CNY 43、EUR 26
+- 每筆有完整地址（縣市+區域+街道）和 lat/lng
+
+### v1 → v2 演進
+
+| 版本 | API | 筆數 | 層級 | 精確配對 FISC |
+|------|-----|------|------|-------------|
+| v1（aboutLocationCurrency.jsp）| 分行幣別 | 102 | 分行 | ~190 |
+| v2（GetCustomATM.jsp）| 機台幣別 | 1,011 | ATM | 1,007 |
 
 ---
 
 ## 7. 待辦
 
-- [ ] 實作方案 B fallback（在 `merge_currencies.py` 補台新 fallback 邏輯）
-- [ ] 驗證座標配對方案 A 是否可行（可作為精細化版本）
-- [ ] 將 `*_currencies.json` 加入 git tracking（目前被 `.gitignore` 排除，導致 Mac/Windows 跨機器遺失）
+- [x] 實作方案 B fallback（`merge_currencies.py`）
+- [x] 找到機台層級 API，覆蓋率提升至 1026/1026
+- [x] 將 `*_currencies.json` 加入 git tracking
 
 ---
 

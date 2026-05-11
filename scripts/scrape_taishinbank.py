@@ -1,168 +1,138 @@
 """
 台新國際商業銀行外幣 ATM 幣別爬蟲
-來源: https://www.taishinbank.com.tw/TSB/service-and-support/branch-finder/
-幣別 API: POST /eServiceA/misc/aboutLocationCurrency.jsp?branchCode=NNN
+來源: https://www.taishinbank.com.tw/TSB/service-and-support/atm-location/
+API:  POST /eServiceA/misc/GetCustomATM.jsp  (functoinName="CustomAtm")
 
-注意：幣別資料為分行層級（含臨櫃換鈔），非 ATM 機台專屬。
-回傳格式 {"日圓JPY": "1000,5000,10000", ...}，key 中包含貨幣代碼。
+與舊版（使用 aboutLocationCurrency.jsp）的差別：
+  - 本版為機台層級，每台 ATM 有獨立幣別欄位
+  - 總計 3,524 台（含台幣 ATM），篩選有外幣服務者輸出
+  - 可完整覆蓋便利商店、學校、醫院等非分行場所的外幣 ATM
+
+API 回傳欄位說明：
+  USD, JPY, CNY, EUR, FOREIGN_SAVE: "y" 表示支援，"" 表示不支援
 
 輸出: data/processed/taishinbank_currencies.json
 
 每筆格式:
 {
   "bank": "台新銀行",
-  "branch": "外幣部(總行)",
-  "address": "台北市中山區中山北路二段44號",
-  "lat": "25.0551596",
-  "lng": "121.5202956",
-  "currencies": ["CAD", "CNY", "EUR", "HKD", "JPY", "USD"]
+  "branch": "全家-康福",
+  "address": "台北市內湖區康樂街87號",
+  "lat": "25.069568",
+  "lng": "121.618904",
+  "currencies": ["JPY", "USD"]
 }
 """
 
 import json
-import re
 import time
 from pathlib import Path
-from urllib.parse import unquote
 
 import requests
 import urllib3
 
 urllib3.disable_warnings()
 
-BRANCH_FINDER_URL = (
-    "https://www.taishinbank.com.tw/TSB/service-and-support/branch-finder/"
-)
-CURRENCY_API_URL = (
-    "https://www.taishinbank.com.tw/eServiceA/misc/aboutLocationCurrency.jsp"
-)
+API_URL = "https://www.taishinbank.com.tw/eServiceA/misc/GetCustomATM.jsp"
+REFERER = "https://www.taishinbank.com.tw/TSB/service-and-support/atm-location/"
 OUTPUT = Path(__file__).parent.parent / "data" / "processed" / "taishinbank_currencies.json"
-TOTAL_PAGES = 26
 
 HEADERS = {
     "User-Agent": "tw-fx-atm-bot/1.0",
-    "Referer": BRANCH_FINDER_URL,
+    "Referer": REFERER,
 }
 
-# Regex to pull currency code from key like "日圓JPY" -> "JPY"
-# CJK chars are \w in Python so \b doesn't work; currency code is always at key end
-CURRENCY_CODE_RE = re.compile(r"([A-Z]{3})$")
-
-# Google Maps URL pattern: /place/ENCODED_ADDR/@lat,lng,
-MAPS_PLACE_RE = re.compile(r"/place/([^/]+)/@([\d.]+),([\d.]+),")
-BRANCH_CODE_RE = re.compile(r"qryWait\('(\d+)'\)")
-
-# Branch name sits in <span class="title-detail">
-TITLE_DETAIL_RE = re.compile(
-    r'class="title-detail">(.*?)</span>', re.DOTALL
-)
+# ATM service code → currency code mapping
+CURRENCY_FIELDS = {
+    "USD": "USD",
+    "JPY": "JPY",
+    "CNY": "CNY",
+    "EUR": "EUR",
+}
 
 
-def extract_currency_codes(raw: dict) -> list[str]:
-    codes = set()
-    for key in raw:
-        m = CURRENCY_CODE_RE.search(key)
-        if m:
-            codes.add(m.group(1))
-    return sorted(codes)
-
-
-def scrape_page(session: requests.Session, page: int) -> list[dict]:
-    resp = session.get(
-        BRANCH_FINDER_URL, params={"page": page}, headers=HEADERS,
-        timeout=15, verify=False,
-    )
-    resp.raise_for_status()
-    html = resp.content.decode("utf-8", errors="replace")
-
-    # Split by qryWait to get per-branch blocks
-    parts = re.split(r"(?=qryWait\(')", html)
-    branches = []
-
-    for part in parts:
-        code_m = BRANCH_CODE_RE.search(part)
-        if not code_m:
-            continue
-        code = code_m.group(1)
-
-        # Address + coordinates from Google Maps URL
-        maps_m = MAPS_PLACE_RE.search(part)
-        address = unquote(maps_m.group(1)) if maps_m else ""
-        lat = maps_m.group(2) if maps_m else ""
-        lng = maps_m.group(3) if maps_m else ""
-
-        # Remove zip code prefix (5 digits) from address
-        address = re.sub(r"^\d{5}", "", address).strip()
-
-        # Branch name
-        title_m = TITLE_DETAIL_RE.search(part)
-        name = re.sub(r"<[^>]+>", "", title_m.group(1)).strip() if title_m else ""
-
-        branches.append({
-            "code": code,
-            "name": name,
-            "address": address,
-            "lat": lat,
-            "lng": lng,
-        })
-
-    return branches
-
-
-def get_currencies(session: requests.Session, branch_code: str) -> list[str]:
+def fetch_page(session: requests.Session, page: int) -> dict:
     resp = session.post(
-        CURRENCY_API_URL,
-        data={"branchCode": branch_code, "locale": ""},
+        API_URL,
+        data={
+            "city": "",
+            "region": "",
+            "atmService": "",
+            "pageNum": page,
+            "functoinName": "CustomAtm",  # typo is intentional (server-side)
+            "latlon": "",
+        },
         headers=HEADERS,
-        timeout=10,
+        timeout=20,
         verify=False,
     )
     resp.raise_for_status()
-    try:
-        raw = resp.json()
-    except Exception:
-        return []
-    return extract_currency_codes(raw)
+    return resp.json()
+
+
+def parse_atm(item: dict) -> dict | None:
+    currencies = sorted(
+        code for field, code in CURRENCY_FIELDS.items()
+        if item.get(field) == "y"
+    )
+    if not currencies:
+        return None  # 無外幣服務，略過
+
+    city = item.get("CITY", "")
+    region = item.get("REGION", "")
+    address_tail = item.get("ADDRESS", "")
+    # 組合完整地址
+    address = city + region + address_tail
+
+    return {
+        "bank": "台新銀行",
+        "branch": item.get("SITE_NAME", "").strip(),
+        "address": address.strip(),
+        "lat": item.get("LATITUDE", ""),
+        "lng": item.get("LONGITUDE", ""),
+        "currencies": currencies,
+    }
 
 
 def scrape() -> list[dict]:
     records = []
 
     with requests.Session() as session:
-        all_branches = []
-        for page in range(1, TOTAL_PAGES + 1):
-            branches = scrape_page(session, page)
-            all_branches.extend(branches)
-            print(f"  Page {page:2d}: {len(branches)} branches")
-            time.sleep(0.3)
+        # 第一頁：取得總頁數
+        first = fetch_page(session, 1)
+        total_pages = first.get("maxNum", 1)
+        total_atms = first.get("customAtmCount", 0)
+        print(f"  總 ATM 數：{total_atms}，共 {total_pages} 頁")
 
-        print(f"\n共 {len(all_branches)} 個分行，查詢幣別中...")
+        pages = [first] + [None] * (total_pages - 1)
 
-        for i, b in enumerate(all_branches, 1):
-            currencies = get_currencies(session, b["code"])
-            if currencies:
-                records.append({
-                    "bank": "台新銀行",
-                    "branch": b["name"],
-                    "address": b["address"],
-                    "lat": b["lat"],
-                    "lng": b["lng"],
-                    "currencies": currencies,
-                })
-                print(f"  [{i:3d}/{len(all_branches)}] {b['code']} {b['name'][:16]:16s}  {' '.join(currencies)}")
-            else:
-                print(f"  [{i:3d}/{len(all_branches)}] {b['code']} {b['name'][:16]:16s}  (無外幣)")
-            time.sleep(0.2)
+        for page in range(1, total_pages + 1):
+            data = pages[page - 1] if page == 1 else fetch_page(session, page)
+            for item in data.get("customAtmList", []):
+                rec = parse_atm(item)
+                if rec:
+                    records.append(rec)
+            if page % 20 == 0:
+                print(f"  Page {page}/{total_pages}，目前 {len(records)} 筆外幣 ATM")
+            time.sleep(0.15)
 
     return records
 
 
 def main():
-    print("台新銀行幣別爬蟲啟動")
+    print("台新銀行外幣 ATM 爬蟲啟動（機台層級版）")
     records = scrape()
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"\n共 {len(records)} 筆有幣別，已存至 {OUTPUT}")
+    print(f"\n共 {len(records)} 筆外幣 ATM，已存至 {OUTPUT}")
+
+    # 幣別統計
+    from collections import Counter
+    all_curr = []
+    for r in records:
+        all_curr.extend(r["currencies"])
+    for curr, cnt in sorted(Counter(all_curr).items()):
+        print(f"  {curr}: {cnt}")
 
 
 if __name__ == "__main__":

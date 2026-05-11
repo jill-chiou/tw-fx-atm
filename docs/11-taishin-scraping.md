@@ -6,7 +6,7 @@
 
 ## 1. 問題背景
 
-Session 交接文件（`10-session-handoff.md`）記錄台新銀行有 **1,026 台 FISC 外幣 ATM**，完成後可將覆蓋率從 36% 提升至 89%，是最大單一增量。但官網「完全無幣別資訊」，建議用 Network tab 找 API。
+Session 交接文件（`00-handoff-2026-05-11-windows.md`）記錄台新銀行有 **1,026 台 FISC 外幣 ATM**，完成後可將覆蓋率從 36% 提升至 89%，是最大單一增量。但官網「完全無幣別資訊」，建議用 Network tab 找 API。
 
 ---
 

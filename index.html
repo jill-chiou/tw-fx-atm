@@ -2,307 +2,540 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>台灣外幣 ATM 地圖</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
+    :root {
+      --primary: #3d7a8a;
+      --surface: #ffffff;
+      --bg: #f5f6f8;
+      --text: #1a1a2e;
+      --text-2: #6b7280;
+      --border: #e5e7eb;
+      --shadow-md: 0 4px 16px rgba(0,0,0,.14);
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
+    html, body {
+      height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      display: flex;
-      flex-direction: column;
-      height: 100dvh;
+      overflow: hidden;
     }
 
-    header {
-      background: #1a73e8;
-      color: white;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
+    /* ── map ── */
+    #map { position: fixed; inset: 0; z-index: 0; }
+
+    /* ── top bar ── */
+    #top-bar {
+      position: fixed; top: 12px; left: 12px; right: 12px;
+      z-index: 1000; display: flex; gap: 8px; align-items: center;
     }
-
-    header h1 { font-size: 16px; font-weight: 600; }
-    header .count { font-size: 13px; opacity: 0.85; margin-left: auto; }
-
-    #filter-bar {
-      background: #f8f9fa;
-      border-bottom: 1px solid #ddd;
-      padding: 8px 12px;
-      overflow-x: auto;
-      white-space: nowrap;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    #search-wrap { flex: 1; position: relative; }
+    #search-input {
+      width: 100%; height: 44px; padding: 0 36px 0 40px;
+      border: none; border-radius: 12px;
+      background: var(--surface); box-shadow: var(--shadow-md);
+      font-size: 15px; color: var(--text); outline: none;
+      -webkit-appearance: none;
     }
+    #search-input::placeholder { color: var(--text-2); }
+    .search-icon {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      pointer-events: none; color: var(--text-2); display: flex;
+    }
+    #btn-clear {
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      display: none; border: none; background: none; cursor: pointer;
+      color: var(--text-2); font-size: 20px; line-height: 1; padding: 2px 4px;
+    }
+    #btn-clear.on { display: block; }
+    .fab {
+      height: 44px; flex-shrink: 0;
+      padding: 0 14px; gap: 6px;
+      border-radius: 12px; border: none;
+      background: var(--surface); box-shadow: var(--shadow-md);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text); font-size: 13px; font-weight: 500;
+      transition: background .15s; white-space: nowrap;
+    }
+    .fab:active { background: var(--bg); }
+    .fab.active { background: var(--primary); color: white; }
+    .fab:disabled { opacity: .5; pointer-events: none; }
 
-    #filter-bar label {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 13px;
+    /* ── bottom sheet ── */
+    #bottom-sheet {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
+      background: var(--surface); border-radius: 16px 16px 0 0;
+      box-shadow: 0 -2px 20px rgba(0,0,0,.12);
+    }
+    #sheet-handle-wrap {
+      padding: 8px 0 4px; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .handle-bar { width: 36px; height: 4px; border-radius: 2px; background: var(--border); }
+    #sheet-header-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 16px 8px; width: 100%;
+    }
+    #sheet-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    #sheet-count { font-size: 12px; color: var(--text-2); }
+    #sheet-list { overflow-y: auto; transition: max-height .25s ease; }
+
+    .sheet-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 16px; border-bottom: 1px solid var(--border);
       cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      background: white;
-      white-space: nowrap;
-      user-select: none;
+    }
+    .sheet-item:last-child { border-bottom: none; }
+    .sheet-item:active { background: var(--bg); }
+    .item-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px;
+      border: 2px solid white; box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+    }
+    .item-info { flex: 1; min-width: 0; }
+    .item-bank { font-size: 13px; font-weight: 600; color: var(--text); }
+    .item-addr {
+      font-size: 12px; color: var(--text-2); margin-top: 1px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .item-dist { font-size: 12px; font-weight: 600; color: var(--primary); white-space: nowrap; flex-shrink: 0; }
+    .sheet-empty {
+      padding: 16px;
+      display: flex; gap: 10px;
+    }
+    .sheet-empty-btn {
+      flex: 1; padding: 12px 8px;
+      border-radius: 12px; border: 1.5px solid var(--border);
+      background: var(--bg); cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500; color: var(--text);
+      transition: border-color .15s, background .15s;
+    }
+    .sheet-empty-btn:active { background: #eaf2f5; border-color: var(--primary); }
+    .sheet-empty-btn svg { color: var(--primary); }
+
+    /* ── filter sheet ── */
+    #filter-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1050;
+      background: rgba(0,0,0,.3);
+    }
+    #filter-overlay.on { display: block; }
+    #filter-sheet {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 1100;
+      background: var(--surface); border-radius: 16px 16px 0 0;
+      box-shadow: 0 -4px 24px rgba(0,0,0,.18);
+      max-height: 70vh; display: flex; flex-direction: column;
+      transform: translateY(100%); transition: transform .3s cubic-bezier(.4,0,.2,1);
+    }
+    #filter-sheet.on { transform: translateY(0); }
+    #filter-sheet-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 16px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    #filter-sheet-head h3 { font-size: 15px; }
+    .filter-actions { display: flex; gap: 12px; align-items: center; }
+    #btn-sel-all { font-size: 13px; color: var(--primary); background: none; border: none; cursor: pointer; }
+    #btn-filter-close {
+      font-size: 22px; line-height: 1;
+      background: none; border: none; cursor: pointer; color: var(--text-2);
+    }
+    #filter-list { overflow-y: auto; padding-bottom: env(safe-area-inset-bottom, 16px); }
+    .f-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; cursor: pointer;
+    }
+    .f-item:active { background: var(--bg); }
+    .f-dot {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid white; box-shadow: 0 0 0 1.5px rgba(0,0,0,.15);
+    }
+    .f-name { flex: 1; font-size: 14px; color: var(--text); }
+    .f-check {
+      width: 20px; height: 20px; border-radius: 5px;
+      border: 2px solid var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+    }
+    .f-item.on .f-check { background: var(--primary); border-color: var(--primary); color: white; }
+    .f-item.on .f-check::after { content: "✓"; font-size: 11px; }
+
+    /* ── currency chips ── */
+    .currency-section {
+      padding: 10px 16px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .currency-section-label {
+      font-size: 12px; color: var(--text-2); margin-bottom: 7px;
+    }
+    .currency-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .currency-chip {
+      padding: 4px 11px; border-radius: 20px;
+      border: 1.5px solid var(--border); background: none;
+      font-size: 12px; cursor: pointer; color: var(--text-2);
+      transition: all .15s;
+    }
+    .currency-chip.on {
+      border-color: var(--primary); background: var(--primary); color: white;
     }
 
-    #filter-bar label.active {
-      background: #1a73e8;
-      border-color: #1a73e8;
-      color: white;
+    /* ── popup currencies ── */
+    .popup-currencies { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+    .popup-chip {
+      font-size: 10px; padding: 1px 6px; border-radius: 10px;
+      background: var(--bg); border: 1px solid var(--border); color: var(--text-2);
     }
 
-    #filter-bar label input { display: none; }
-
-    #btn-all {
-      font-size: 13px;
-      padding: 4px 10px;
-      border-radius: 12px;
-      border: 1px solid #aaa;
-      background: white;
-      cursor: pointer;
-      flex-shrink: 0;
+    /* ── leaflet overrides ── */
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px !important; box-shadow: var(--shadow-md) !important; padding: 0 !important;
     }
-
-    #map { flex: 1; }
-
-    .popup-content { font-size: 13px; line-height: 1.6; }
-    .popup-content strong { display: block; font-size: 14px; margin-bottom: 2px; }
-    .popup-content .location { color: #555; }
-    .popup-content .address { color: #333; margin-top: 2px; }
-
-    #btn-locate {
-      font-size: 13px;
-      padding: 4px 12px;
-      border-radius: 12px;
-      border: none;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      cursor: pointer;
-      flex-shrink: 0;
+    .leaflet-popup-content { margin: 0 !important; }
+    .popup-inner { padding: 12px 14px; font-size: 13px; line-height: 1.6; min-width: 160px; }
+    .popup-bank {
+      font-size: 14px; font-weight: 700; color: var(--text);
+      display: flex; align-items: center; gap: 6px; margin-bottom: 4px;
     }
-    #btn-locate:hover { background: rgba(255,255,255,0.3); }
-    #btn-locate:disabled { opacity: 0.5; cursor: wait; }
-
-    #nearby-panel {
-      display: none;
-      background: white;
-      border-top: 2px solid #1a73e8;
-      flex-shrink: 0;
-      max-height: 220px;
-      overflow-y: auto;
-    }
-    #nearby-panel.visible { display: block; }
-
-    #nearby-header {
-      position: sticky;
-      top: 0;
-      background: white;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #nearby-header button {
-      font-size: 12px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      color: #888;
-    }
-
-    .nearby-item {
-      padding: 8px 12px;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-    }
-    .nearby-item:hover { background: #f8f9fa; }
-    .nearby-item-info { flex: 1; }
-    .nearby-item-bank { font-weight: 600; }
-    .nearby-item-addr { color: #666; font-size: 12px; margin-top: 2px; }
-    .nearby-item-dist { color: #1a73e8; font-weight: 600; white-space: nowrap; font-size: 13px; }
+    .popup-bank-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .popup-loc { color: var(--text-2); }
+    .popup-addr { font-size: 12px; color: var(--text); margin-top: 2px; }
+    .leaflet-control-zoom { margin-bottom: 72px !important; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>台灣外幣 ATM 地圖</h1>
-  <span class="count" id="visible-count"></span>
-  <button id="btn-locate">定位</button>
-</header>
-
-<div id="filter-bar">
-  <button id="btn-all">全選/全消</button>
-</div>
-
 <div id="map"></div>
 
-<div id="nearby-panel">
-  <div id="nearby-header">
-    <span>附近的外幣 ATM</span>
-    <button id="btn-close-nearby">關閉</button>
+<div id="top-bar">
+  <div id="search-wrap">
+    <span class="search-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input id="search-input" type="search" placeholder="搜尋銀行、地址、縣市…" autocomplete="off" />
+    <button id="btn-clear">×</button>
   </div>
-  <div id="nearby-list"></div>
+  <button class="fab" id="btn-locate">
+    <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+      <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="9" cy="9" r="2.5" fill="currentColor"/>
+      <line x1="9" y1="1" x2="9" y2="3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9" y1="14.5" x2="9" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="1" y1="9" x2="3.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="14.5" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    定位
+  </button>
+  <button class="fab" id="btn-filter">
+    <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+      <line x1="2" y1="5" x2="16" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="4.5" y1="9" x2="13.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="7" y1="13" x2="11" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    銀行
+  </button>
+</div>
+
+<div id="bottom-sheet">
+  <div id="sheet-handle-wrap">
+    <div class="handle-bar"></div>
+    <div id="sheet-header-row">
+      <span id="sheet-title">外幣 ATM</span>
+      <span id="sheet-count"></span>
+    </div>
+  </div>
+  <div id="sheet-list"></div>
+</div>
+
+<div id="filter-overlay"></div>
+<div id="filter-sheet">
+  <div id="filter-sheet-head">
+    <h3>篩選</h3>
+    <div class="filter-actions">
+      <button id="btn-sel-all">全消</button>
+      <button id="btn-filter-close">×</button>
+    </div>
+  </div>
+  <div class="currency-section">
+    <div class="currency-section-label">幣別</div>
+    <div class="currency-chips" id="currency-chips">
+      <button class="currency-chip" data-currency="USD">美元 USD</button>
+      <button class="currency-chip" data-currency="JPY">日圓 JPY</button>
+      <button class="currency-chip" data-currency="CNY">人民幣 CNY</button>
+      <button class="currency-chip" data-currency="EUR">歐元 EUR</button>
+      <button class="currency-chip" data-currency="HKD">港幣 HKD</button>
+    </div>
+  </div>
+  <div id="filter-list"></div>
 </div>
 
 <script>
   const map = L.map("map").setView([23.97, 120.97], 8);
-
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 19,
   }).addTo(map);
 
-  // 銀行 → 顯示名稱（修正 #N/A 和空值）
-  function displayBank(record) {
-    const name = record["銀行名稱"];
-    if (!name || name === "#N/A") return `代號 ${record["代號"]}`;
-    return name;
-  }
-
-  // 每間銀行一個固定顏色
+  // ── colors ──
   const PALETTE = [
     "#e53935","#8e24aa","#1e88e5","#00897b","#f4511e",
     "#6d4c41","#039be5","#43a047","#fb8c00","#3949ab",
-    "#00acc1","#7cb342","#fdd835","#d81b60","#546e7a",
-    "#c0ca33","#00bcd4","#ff7043",
+    "#00acc1","#7cb342","#e6ac00","#d81b60","#546e7a",
+    "#8bc34a","#00bcd4","#ff7043",
   ];
   const bankColors = {};
-
   function getColor(bank) {
-    if (!bankColors[bank]) {
-      const idx = Object.keys(bankColors).length % PALETTE.length;
-      bankColors[bank] = PALETTE[idx];
-    }
+    if (!bankColors[bank]) bankColors[bank] = PALETTE[Object.keys(bankColors).length % PALETTE.length];
     return bankColors[bank];
   }
 
+  function displayBank(d) {
+    const n = d["銀行名稱"];
+    return (!n || n === "#N/A") ? `代號 ${d["代號"]}` : n;
+  }
+
   function makeIcon(color) {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="36" viewBox="0 0 24 36">
-      <path fill="${color}" stroke="white" stroke-width="1.5"
-        d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24s12-15 12-24C24 5.4 18.6 0 12 0z"/>
-      <circle fill="white" cx="12" cy="12" r="5"/>
-    </svg>`;
     return L.divIcon({
-      html: svg,
+      html: `<div style="width:16px;height:16px;border-radius:50%;background:${color};border:2.5px solid white;box-shadow:0 1px 5px rgba(0,0,0,.4)"></div>`,
       className: "",
-      iconSize: [24, 36],
-      iconAnchor: [12, 36],
-      popupAnchor: [0, -36],
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+      popupAnchor: [0, -12],
     });
   }
 
-  // 直線距離（Haversine 公式），單位：公尺
-  // 選擇直線而非步行距離的原因：
-  // 1. 步行距離需要每筆打 routing API，1,939 筆同時算會很慢
-  // 2. ATM finder 使用情境（幾百公尺內）直線 vs 步行差異不大
-  // 3. Google Maps「附近」排序也是直線距離，只有點導航才算路線
   function haversine(lat1, lng1, lat2, lng2) {
-    const R = 6371000;
-    const toRad = x => x * Math.PI / 180;
-    const dLat = toRad(lat2 - lat1);
-    const dLng = toRad(lng2 - lng1);
-    const a = Math.sin(dLat/2)**2 +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+    const R = 6371000, r = x => x * Math.PI / 180;
+    const dLat = r(lat2 - lat1), dLng = r(lng2 - lng1);
+    const a = Math.sin(dLat/2)**2 + Math.cos(r(lat1)) * Math.cos(r(lat2)) * Math.sin(dLng/2)**2;
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   }
 
-  function formatDist(m) {
-    return m < 1000 ? `${Math.round(m)} 公尺` : `${(m/1000).toFixed(1)} 公里`;
+  function fmtDist(m) {
+    return m < 1000 ? `${Math.round(m)}m` : `${(m/1000).toFixed(1)}km`;
   }
 
+  // 搜尋比對：先試完整子字串，4字以上再試每2字一組的AND比對
+  // 讓「高雄三民」能命中「高雄市三民區」（中間有「市」字隔開）
+  function matchQuery(q, bank, data) {
+    const hay = [bank, data["裝設地點"] || "", data["地址"] || ""].join("").toLowerCase();
+    if (hay.includes(q)) return true;
+    if (q.length >= 4) {
+      const chunks = [];
+      for (let i = 0; i < q.length; i += 2) chunks.push(q.slice(i, i + 2));
+      if (chunks.every(c => hay.includes(c))) return true;
+    }
+    return false;
+  }
+
+  // ── state ──
+  let allMarkers = [];
+  let activeSet = new Set();
   let userLat = null, userLng = null, userMarker = null;
+  let searchQuery = "";
+  let activeCurrencies = new Set(); // 空 = 不篩選幣別
+  let sheetExpanded = false;
+
+  // ── sheet expand/collapse ──
+  const sheetList = document.getElementById("sheet-list");
+
+  function setSheetExpanded(on) {
+    sheetExpanded = on;
+    sheetList.style.maxHeight = on ? "38vh" : "0";
+    sheetList.style.overflow = on ? "auto" : "hidden";
+  }
+  setSheetExpanded(false);
+
+  document.getElementById("sheet-handle-wrap").addEventListener("click", () => {
+    setSheetExpanded(!sheetExpanded);
+  });
+
+  // ── sheet list content ──
+  function updateSheetList() {
+    const q = searchQuery.trim().toLowerCase();
+    let items;
+
+    if (q) {
+      items = allMarkers
+        .filter(({ bank, data }) => activeSet.has(bank) && matchQuery(q, bank, data))
+        .slice(0, 40);
+      document.getElementById("sheet-title").textContent = `搜尋「${searchQuery.trim()}」`;
+      document.getElementById("sheet-count").textContent = `${items.length} 筆`;
+
+    } else if (userLat !== null) {
+      items = allMarkers
+        .filter(({ bank }) => activeSet.has(bank))
+        .map(x => ({ ...x, dist: haversine(userLat, userLng, parseFloat(x.data.lat), parseFloat(x.data.lng)) }))
+        .sort((a, b) => a.dist - b.dist)
+        .slice(0, 20);
+      document.getElementById("sheet-title").textContent = "附近外幣 ATM";
+      document.getElementById("sheet-count").textContent = `最近 ${items.length} 筆`;
+
+    } else {
+      const visible = allMarkers.filter(m => activeSet.has(m.bank)).length;
+      document.getElementById("sheet-title").textContent = "外幣 ATM";
+      document.getElementById("sheet-count").textContent = `共 ${visible} 筆`;
+      sheetList.innerHTML = `
+        <div class="sheet-empty">
+          <button class="sheet-empty-btn" id="empty-btn-locate">
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="9" cy="9" r="2.5" fill="currentColor"/>
+              <line x1="9" y1="1" x2="9" y2="3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="9" y1="14.5" x2="9" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="1" y1="9" x2="3.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="14.5" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            找附近 ATM
+          </button>
+          <button class="sheet-empty-btn" id="empty-btn-filter">
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
+              <line x1="2" y1="5" x2="16" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="4.5" y1="9" x2="13.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="7" y1="13" x2="11" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            選擇銀行
+          </button>
+        </div>`;
+      document.getElementById("empty-btn-locate").addEventListener("click", () => document.getElementById("btn-locate").click());
+      document.getElementById("empty-btn-filter").addEventListener("click", () => openFilter());
+      return;
+    }
+
+    if (items.length === 0) {
+      sheetList.innerHTML = `<div class="sheet-empty">沒有符合的 ATM</div>`;
+      return;
+    }
+
+    sheetList.innerHTML = items.map(({ bank, data, dist }) => {
+      const color = getColor(bank);
+      const addr = [data["裝設地點"], data["地址"]].filter(Boolean).join(" ");
+      const distStr = dist != null ? `<span class="item-dist">${fmtDist(dist)}</span>` : "";
+      return `
+        <div class="sheet-item" data-lat="${data.lat}" data-lng="${data.lng}">
+          <div class="item-dot" style="background:${color}"></div>
+          <div class="item-info">
+            <div class="item-bank">${bank}</div>
+            <div class="item-addr">${addr}</div>
+          </div>
+          ${distStr}
+        </div>`;
+    }).join("");
+
+    sheetList.querySelectorAll(".sheet-item").forEach((el, i) => {
+      el.addEventListener("click", () => {
+        const lat = parseFloat(el.dataset.lat);
+        const lng = parseFloat(el.dataset.lng);
+        map.setView([lat, lng], 17);
+        items[i].marker.openPopup();
+      });
+    });
+  }
+
+  // ── markers ──
+  function redraw() {
+    const q = searchQuery.trim().toLowerCase();
+    allMarkers.forEach(({ marker, bank, data }) => {
+      const inFilter = activeSet.has(bank);
+      const inSearch = !q || matchQuery(q, bank, data);
+      const inCurrency = activeCurrencies.size === 0
+        || data.currencies === null
+        || (data.currencies && [...activeCurrencies].every(c => data.currencies.includes(c)));
+      const show = inFilter && inSearch && inCurrency;
+      if (show && !map.hasLayer(marker)) marker.addTo(map);
+      else if (!show && map.hasLayer(marker)) map.removeLayer(marker);
+    });
+    updateSheetList();
+  }
+
+  // ── filter sheet ──
+  function openFilter() {
+    document.getElementById("filter-sheet").classList.add("on");
+    document.getElementById("filter-overlay").classList.add("on");
+  }
+  function closeFilter() {
+    document.getElementById("filter-sheet").classList.remove("on");
+    document.getElementById("filter-overlay").classList.remove("on");
+  }
+  document.getElementById("btn-filter").addEventListener("click", openFilter);
+  document.getElementById("btn-filter-close").addEventListener("click", closeFilter);
+  document.getElementById("filter-overlay").addEventListener("click", closeFilter);
+
+  document.querySelectorAll(".currency-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const c = chip.dataset.currency;
+      if (activeCurrencies.has(c)) { activeCurrencies.delete(c); chip.classList.remove("on"); }
+      else                         { activeCurrencies.add(c);    chip.classList.add("on");    }
+      redraw();
+    });
+  });
+
+  // ── search ──
+  const searchInput = document.getElementById("search-input");
+  const btnClear = document.getElementById("btn-clear");
+
+  searchInput.addEventListener("input", () => {
+    searchQuery = searchInput.value;
+    btnClear.classList.toggle("on", searchQuery.length > 0);
+    setSheetExpanded(searchQuery.length > 0 || userLat !== null);
+    redraw();
+  });
+
+  btnClear.addEventListener("click", () => {
+    searchInput.value = "";
+    searchQuery = "";
+    btnClear.classList.remove("on");
+    setSheetExpanded(userLat !== null);
+    redraw();
+  });
+
+  // ── geolocation ──
+  const btnLocate = document.getElementById("btn-locate");
 
   function setUserMarker(lat, lng) {
     if (userMarker) map.removeLayer(userMarker);
     userMarker = L.circleMarker([lat, lng], {
-      radius: 9,
-      color: "white",
-      weight: 3,
-      fillColor: "#1a73e8",
-      fillOpacity: 1,
+      radius: 8, color: "white", weight: 3,
+      fillColor: "#3d7a8a", fillOpacity: 1,
     }).addTo(map).bindPopup("你在這裡");
   }
 
-  function showNearby() {
-    if (userLat === null) return;
-    const visible = allMarkers.filter(m => activeSet.has(m.bank));
-    const sorted = visible
-      .map(({ marker, bank, data }) => ({
-        marker, bank, data,
-        dist: haversine(userLat, userLng, parseFloat(data.lat), parseFloat(data.lng)),
-      }))
-      .sort((a, b) => a.dist - b.dist)
-      .slice(0, 5);
+  btnLocate.addEventListener("click", () => {
+    if (!navigator.geolocation) { alert("你的瀏覽器不支援定位功能"); return; }
+    btnLocate.disabled = true;
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+        setUserMarker(userLat, userLng);
+        map.setView([userLat, userLng], 15);
+        btnLocate.classList.add("active");
+        btnLocate.disabled = false;
+        setSheetExpanded(true);
+        redraw();
+      },
+      err => {
+        btnLocate.disabled = false;
+        const msg = {
+          1: "請允許瀏覽器存取位置（設定 → Safari → 位置）",
+          2: "裝置無法取得位置訊號，請稍後再試",
+          3: "定位逾時，請確認 GPS 或網路正常後重試",
+        }[err.code] || "定位失敗，請稍後再試";
+        alert(msg);
+      },
+      { timeout: 10000, maximumAge: 60000 }
+    );
+  });
 
-    const list = document.getElementById("nearby-list");
-    list.innerHTML = "";
-    sorted.forEach(({ marker, bank, data, dist }) => {
-      const item = document.createElement("div");
-      item.className = "nearby-item";
-      item.innerHTML = `
-        <div class="nearby-item-info">
-          <div class="nearby-item-bank">${bank}</div>
-          <div class="nearby-item-addr">${data["裝設地點"] || ""} ${data["地址"] || ""}</div>
-        </div>
-        <div class="nearby-item-dist">${formatDist(dist)}</div>
-      `;
-      item.addEventListener("click", () => {
-        map.setView([parseFloat(data.lat), parseFloat(data.lng)], 17);
-        marker.openPopup();
-      });
-      list.appendChild(item);
-    });
-
-    document.getElementById("nearby-panel").classList.add("visible");
-  }
-
-  let allMarkers = [];    // [{marker, bank, data}]
-  let activeSet = new Set();
-
-  function updateCount() {
-    const n = allMarkers.filter(m => activeSet.has(m.bank)).length;
-    document.getElementById("visible-count").textContent = `顯示 ${n} 筆`;
-  }
-
-  function redrawMarkers() {
-    allMarkers.forEach(({ marker, bank }) => {
-      if (activeSet.has(bank)) {
-        if (!map.hasLayer(marker)) marker.addTo(map);
-      } else {
-        if (map.hasLayer(marker)) map.removeLayer(marker);
-      }
-    });
-    updateCount();
-    showNearby();
-  }
-
-  fetch("data/processed/atm_geocoded.json")
+  // ── data load ──
+  fetch("data/processed/atm_with_currencies.json")
     .then(r => r.json())
     .then(data => {
-      // 只用有座標的筆
       const valid = data.filter(d => d.lat && d.lng);
 
-      // 收集所有銀行（依出現順序）
       const banksOrdered = [];
       const seen = new Set();
       valid.forEach(d => {
@@ -310,107 +543,68 @@
         if (!seen.has(b)) { banksOrdered.push(b); seen.add(b); }
       });
       banksOrdered.sort();
+      banksOrdered.forEach(b => { activeSet.add(b); getColor(b); });
 
-      // 全部預設勾選
-      banksOrdered.forEach(b => activeSet.add(b));
-
-      // 建 checkbox UI
-      const bar = document.getElementById("filter-bar");
+      // filter list
+      const filterList = document.getElementById("filter-list");
       banksOrdered.forEach(bank => {
-        const label = document.createElement("label");
-        label.className = "active";
-        label.title = bank;
-        const cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.checked = true;
-        cb.addEventListener("change", () => {
-          if (cb.checked) { activeSet.add(bank); label.classList.add("active"); }
-          else            { activeSet.delete(bank); label.classList.remove("active"); }
-          redrawMarkers();
+        const color = getColor(bank);
+        const item = document.createElement("div");
+        item.className = "f-item on";
+        item.dataset.bank = bank;
+        item.innerHTML = `
+          <div class="f-dot" style="background:${color}"></div>
+          <span class="f-name">${bank}</span>
+          <div class="f-check"></div>
+        `;
+        item.addEventListener("click", () => {
+          if (activeSet.has(bank)) { activeSet.delete(bank); item.classList.remove("on"); }
+          else                     { activeSet.add(bank);    item.classList.add("on");    }
+          redraw();
         });
-        const dot = document.createElement("span");
-        dot.style.cssText = `display:inline-block;width:8px;height:8px;border-radius:50%;background:${getColor(bank)};flex-shrink:0`;
-        label.appendChild(cb);
-        label.appendChild(dot);
-        label.appendChild(document.createTextNode(" " + bank));
-        bar.appendChild(label);
+        filterList.appendChild(item);
       });
 
-      // 全選/全消
-      document.getElementById("btn-all").addEventListener("click", () => {
+      document.getElementById("btn-sel-all").addEventListener("click", () => {
         const allOn = banksOrdered.every(b => activeSet.has(b));
-        bar.querySelectorAll("label").forEach((label, i) => {
-          const cb = label.querySelector("input");
-          if (cb) {
-            cb.checked = !allOn;
-            if (!allOn) { activeSet.add(banksOrdered[i]); label.classList.add("active"); }
-            else        { activeSet.delete(banksOrdered[i]); label.classList.remove("active"); }
-          }
+        filterList.querySelectorAll(".f-item").forEach((el, i) => {
+          if (allOn) { activeSet.delete(banksOrdered[i]); el.classList.remove("on"); }
+          else       { activeSet.add(banksOrdered[i]);    el.classList.add("on");    }
         });
-        redrawMarkers();
+        document.getElementById("btn-sel-all").textContent = allOn ? "全選" : "全消";
+        redraw();
       });
 
-      // 建 markers
+      // build markers
       valid.forEach(d => {
         const bank = displayBank(d);
+        const color = getColor(bank);
         const marker = L.marker([parseFloat(d.lat), parseFloat(d.lng)], {
-          icon: makeIcon(getColor(bank)),
+          icon: makeIcon(color),
         });
+        const currencyHtml = d.currencies?.length
+          ? `<div class="popup-currencies">${d.currencies.map(c => `<span class="popup-chip">${c}</span>`).join("")}</div>`
+          : "";
         marker.bindPopup(`
-          <div class="popup-content">
-            <strong>${bank}</strong>
-            <span class="location">${d["裝設地點"] || ""}</span>
-            <span class="address">${d["地址"] || ""}</span>
+          <div class="popup-inner">
+            <div class="popup-bank">
+              <div class="popup-bank-dot" style="background:${color}"></div>
+              ${bank}
+            </div>
+            <div class="popup-loc">${d["裝設地點"] || ""}</div>
+            <div class="popup-addr">${d["地址"] || ""}</div>
+            ${currencyHtml}
           </div>
         `);
         allMarkers.push({ marker, bank, data: d });
       });
 
-      redrawMarkers();
-
-      // 定位按鈕
-      document.getElementById("btn-locate").addEventListener("click", () => {
-        if (!navigator.geolocation) {
-          alert("你的瀏覽器不支援定位功能");
-          return;
-        }
-        const btn = document.getElementById("btn-locate");
-        btn.textContent = "定位中...";
-        btn.disabled = true;
-        navigator.geolocation.getCurrentPosition(
-          pos => {
-            userLat = pos.coords.latitude;
-            userLng = pos.coords.longitude;
-            setUserMarker(userLat, userLng);
-            map.setView([userLat, userLng], 15);
-            showNearby();
-            btn.textContent = "重新定位";
-            btn.disabled = false;
-          },
-          err => {
-            const msg = {
-              1: "定位失敗：請允許瀏覽器存取位置（設定 → Safari → 位置）",
-              2: "定位失敗：裝置無法取得位置訊號，請稍後再試",
-              3: "定位失敗：逾時，請確認 GPS 或網路正常後重試",
-            }[err.code] || "定位失敗，請稍後再試";
-            alert(msg);
-            btn.textContent = "定位";
-            btn.disabled = false;
-          },
-          { timeout: 10000, maximumAge: 60000 }
-        );
-      });
-
-      // 關閉附近面板
-      document.getElementById("btn-close-nearby").addEventListener("click", () => {
-        document.getElementById("nearby-panel").classList.remove("visible");
-      });
+      redraw();
     })
     .catch(err => {
       document.getElementById("map").innerHTML =
         `<p style="padding:20px;color:red">資料載入失敗：${err.message}<br>請用 python3 -m http.server 8000 啟動後再開啟</p>`;
     });
 </script>
-
 </body>
 </html>

@@ -3,6 +3,8 @@ data/*
 !data/processed/
 data/processed/*
 !data/processed/atm_geocoded.json
+!data/processed/atm_with_currencies.json
+!data/processed/*_currencies.json
 !data/processed/sample_validation.csv
 !data/processed/sample_validation_review.csv
 

@@ -24,6 +24,7 @@ SCRAPED_FILES = [
     ROOT / "data/processed/sinopac_currencies.json",
     ROOT / "data/processed/hncb_currencies.json",
     ROOT / "data/processed/esunbank_currencies.json",
+    ROOT / "data/processed/taishinbank_currencies.json",
 ]
 
 # 手動 mapping: (銀行名稱片段, API branch) → FISC 裝設地點
@@ -46,6 +47,13 @@ MANUAL_MAP = {
 # 待確認，暫不 merge
 PENDING = {
     ("兆豐", "新店分行"),
+}
+
+# 當分行名稱配對失敗時，依各銀行 ATM 服務頁標示的最小支援幣別作 fallback
+# 只有 FISC 全數為外幣 ATM、且官網有明確說明幣別的銀行才放這裡
+FALLBACK_CURRENCIES: dict[str, list[str]] = {
+    # 台新 ATM 服務頁 (personal/digital/.../atm_service/): USD/JPY/RMB/EUR
+    "台新": ["CNY", "EUR", "JPY", "USD"],
 }
 
 
@@ -87,7 +95,8 @@ def build_lookup(scraped: list[dict]) -> dict:
             merged = sorted(set(existing) | set(currencies))
             lookup[key] = merged
         elif (bank_kw, branch) not in PENDING:
-            # 一般比對：存成 (bank_kw, branch) 等下面用子字串查
+            if not branch:
+                continue  # 空 branch 會造成萬用符合，跳過
             lookup[(bank_kw, branch)] = currencies
 
     return lookup
@@ -102,6 +111,10 @@ def find_currencies(fisc_bank: str, fisc_loc: str, lookup: dict) -> list | None:
         # FISC 裝設地點含 branch_or_fisc（子字串比對）
         if branch_or_fisc in fisc_loc:
             return currencies
+    # fallback：非分行場所的 ATM 套用該銀行的最小幣別集合
+    for bank_kw, fallback in FALLBACK_CURRENCIES.items():
+        if bank_kw in fisc_bank:
+            return fallback
     return None
 
 
@@ -116,30 +129,44 @@ def main():
 
     lookup = build_lookup(scraped)
 
-    matched = unmatched = 0
+    matched = fallback_matched = unmatched = 0
     result = []
     for entry in fisc_data:
         bank_name = entry.get("銀行名稱", "")
         loc       = entry.get("裝設地點", "")
-        currencies = find_currencies(bank_name, loc, lookup)
+
+        # 先嘗試分行名稱精確配對，再嘗試 fallback
+        currencies = None
+        for (bank_kw, branch_or_fisc), currs in lookup.items():
+            if bank_kw not in bank_name:
+                continue
+            if branch_or_fisc in loc:
+                currencies = currs
+                matched += 1
+                break
+        if currencies is None:
+            for bank_kw, fallback in FALLBACK_CURRENCIES.items():
+                if bank_kw in bank_name:
+                    currencies = fallback
+                    fallback_matched += 1
+                    break
+        if currencies is None:
+            unmatched += 1
 
         new_entry = dict(entry)
         new_entry["currencies"] = currencies
         result.append(new_entry)
-
-        if currencies is not None:
-            matched += 1
-        else:
-            unmatched += 1
 
     OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
     total = len(result)
     scraped_banks = {item["bank"] for item in scraped}
     print(f"總筆數：{total}")
-    print(f"有幣別：{matched}（{matched*100//total}%）")
-    print(f"無幣別：{unmatched}（已爬銀行以外的銀行）")
-    print(f"已爬銀行：{', '.join(scraped_banks)}")
+    print(f"有幣別（分行精確配對）：{matched}")
+    print(f"有幣別（fallback 配對）：{fallback_matched}")
+    print(f"有幣別合計：{matched + fallback_matched}（{(matched + fallback_matched)*100//total}%）")
+    print(f"無幣別：{unmatched}")
+    print(f"已爬銀行：{', '.join(sorted(scraped_banks))}")
     print(f"輸出：{OUTPUT}")
 
 

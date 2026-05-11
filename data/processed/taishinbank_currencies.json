@@ -1,0 +1,1545 @@
+[
+  {
+    "bank": "台新銀行",
+    "branch": "敦南分行",
+    "address": "106台北市大安區仁愛路四段118號",
+    "lat": "25.0373814",
+    "lng": "121.5475987",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "新生分行",
+    "address": "100台北市中正區新生南路一段62號",
+    "lat": "25.0405366",
+    "lng": "121.5302981",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "新莊分行",
+    "address": "242新北市新莊區中華路二段75號",
+    "lat": "25.0477983",
+    "lng": "121.4505345",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "台中分行",
+    "address": "403台中市西區台灣大道二段416號",
+    "lat": "24.1552181",
+    "lng": "120.6614674",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "板橋分行",
+    "address": "220新北市板橋區中正路176號",
+    "lat": "25.0174871",
+    "lng": "121.4542253",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "高雄分行",
+    "address": "804高雄市鼓山區明誠四路10號",
+    "lat": "22.6614009",
+    "lng": "120.2896263",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "南京東路分行",
+    "address": "105台北市松山區南京東路三段289號",
+    "lat": "25.0520958",
+    "lng": "121.5441343",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "中壢分行",
+    "address": "320桃園市中壢區延平路366號",
+    "lat": "24.9597311",
+    "lng": "121.2226531",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "信託部",
+    "address": "106台北市大安區仁愛路四段118號",
+    "lat": "25.0373814",
+    "lng": "121.5475987",
+    "currencies": [
+      "AUD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "苓雅分行",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CAD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "蘆洲分行",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "天母分行",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "國際金融業務分行",
+    "address": "台北市中山區建國北路二段17號2樓、6樓",
+    "lat": "25.0541331",
+    "lng": "121.5352634",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "嘉義分行",
+    "address": "600嘉義市西區垂楊路620號",
+    "lat": "23.4735423",
+    "lng": "120.4417438",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "花蓮分行",
+    "address": "970花蓮縣花蓮市中山路408-9號",
+    "lat": "23.9850726",
+    "lng": "121.6010497",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "新竹分行",
+    "address": "300新竹市北區東大路二段83號",
+    "lat": "24.8133679",
+    "lng": "120.9651713",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "七賢分行",
+    "address": "800高雄市新興區七賢一路386號",
+    "lat": "22.634379",
+    "lng": "120.3052762",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "北台中分行",
+    "address": "406台中市北屯區崇德路二段55號",
+    "lat": "24.1702839",
+    "lng": "120.6829696",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "三重分行",
+    "address": "241新北市三重區正義北路116號",
+    "lat": "25.0653853",
+    "lng": "121.4945513",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "永福分行",
+    "address": "700台南市中西區永福路二段150號",
+    "lat": "22.994429",
+    "lng": "120.1994903",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "大安分行",
+    "address": "106台北市大安區信義路三段118號",
+    "lat": "25.0332472",
+    "lng": "121.5366127",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "龍潭分行",
+    "address": "325桃園市龍潭區中正路176號",
+    "lat": "24.8656111",
+    "lng": "121.2146332",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "崇德分行",
+    "address": "701台南市東區崇德路260號",
+    "lat": "22.9775983",
+    "lng": "120.2198944",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "後甲分行",
+    "address": "701台南市東區裕農路520號",
+    "lat": "22.9883798",
+    "lng": "120.2307483",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "海佃分行",
+    "address": "709台南市安南區海佃路一段130號",
+    "lat": "23.0235844",
+    "lng": "120.1897593",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "彰化分行",
+    "address": "500彰化縣彰化市中正路一段273號",
+    "lat": "24.0830548",
+    "lng": "120.5439833",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "鳳山分行",
+    "address": "830高雄市鳳山區中山西路105-1號",
+    "lat": "22.6268149",
+    "lng": "120.3500433",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "古亭分行",
+    "address": "100台北市中正區羅斯福路三段28號",
+    "lat": "25.0231263",
+    "lng": "121.5229364",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "建橋分行",
+    "address": "台北市中山區南京東路二段150號",
+    "lat": "25.0518733",
+    "lng": "121.5320635",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "太平分行",
+    "address": "406台中市太平區宜昌路511號",
+    "lat": "24.1477036",
+    "lng": "120.7132924",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "和平分行",
+    "address": "106台北市大安區和平東路一段238號",
+    "lat": "25.0260688",
+    "lng": "121.5303123",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "北高雄分行",
+    "address": "813高雄市左營區博愛二路360號",
+    "lat": "22.6647689",
+    "lng": "120.3015483",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "內湖分行",
+    "address": "114台北市內湖區內湖路一段358號",
+    "lat": "25.0814423",
+    "lng": "121.5683638",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "永和分行",
+    "address": "234新北市永和區竹林路195號",
+    "lat": "25.0094269",
+    "lng": "121.5186168",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "逢甲分行",
+    "address": "407台中市西屯區河南路二段258號",
+    "lat": "24.1754451",
+    "lng": "120.6473438",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "南屯分行",
+    "address": "408台中市南屯區東興路二段187號",
+    "lat": "24.1412183",
+    "lng": "120.6507018",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "大直分行",
+    "address": "台北市中山區北安路645號",
+    "lat": "25.0838965",
+    "lng": "121.5469191",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "南門分行",
+    "address": "100台北市中正區羅斯福路一段7號",
+    "lat": "25.0338413",
+    "lng": "121.5174395",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "敦北分行",
+    "address": "105台北市松山區民生東路三段133號",
+    "lat": "25.0579301",
+    "lng": "121.546062",
+    "currencies": [
+      "AUD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "忠孝分行",
+    "address": "106台北市大安區忠孝東路四段282號",
+    "lat": "25.0412009",
+    "lng": "121.5533059",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "復興分行",
+    "address": "台北市中山區復興北路150號",
+    "lat": "25.0527767",
+    "lng": "121.5416247",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "民權分行",
+    "address": "404台中市北區民權路559號",
+    "lat": "24.161833",
+    "lng": "120.668175",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "三民分行",
+    "address": "807高雄市三民區澄清路573號",
+    "lat": "22.6434772",
+    "lng": "120.3437767",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "建北分行",
+    "address": "台北市中山區建國北路二段17號",
+    "lat": "25.0541331",
+    "lng": "121.5352634",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "北新店分行",
+    "address": "231新北市新店區寶強路23號",
+    "lat": "24.9792088",
+    "lng": "121.5412712",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "府城分行",
+    "address": "700台南市中西區中山路88號",
+    "lat": "22.9941905",
+    "lng": "120.205761",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "東高雄分行",
+    "address": "807高雄市三民區建興路309號",
+    "lat": "22.6459293",
+    "lng": "120.3210547",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "新店分行",
+    "address": "231新北市新店區北新路一段136號",
+    "lat": "24.9703347",
+    "lng": "121.5404882",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "北桃園分行",
+    "address": "330桃園市桃園區大興西路一段166號",
+    "lat": "25.0146024",
+    "lng": "121.3027643",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "大墩分行",
+    "address": "408台中市南屯區大墩路711號",
+    "lat": "24.1532666",
+    "lng": "120.6473977",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "南崁分行",
+    "address": "338桃園市蘆竹區中正路68號",
+    "lat": "25.0449583",
+    "lng": "121.2915089",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "景平分行",
+    "address": "235新北市中和區景平路634號",
+    "lat": "24.9981377",
+    "lng": "121.5000078",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "文心分行",
+    "address": "408台中市南屯區文心路一段218號",
+    "lat": "24.142323",
+    "lng": "120.6447459",
+    "currencies": [
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "松江分行",
+    "address": "台北市中山區松江路236號",
+    "lat": "25.0590646",
+    "lng": "121.5306564",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "大雅分行",
+    "address": "428台中市大雅區中清東路242號",
+    "lat": "24.2252757",
+    "lng": "120.6443214",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "汐止分行",
+    "address": "221新北市汐止區中興路135號",
+    "lat": "25.0654556",
+    "lng": "121.6294405",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "石牌分行",
+    "address": "112台北市北投區石牌路二段49號",
+    "lat": "25.1163037",
+    "lng": "121.5136547",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "永康分行",
+    "address": "710台南市永康區中華路986號",
+    "lat": "23.021273",
+    "lng": "120.2200943",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "南松山分行",
+    "address": "105台北市松山區南京東路五段161號",
+    "lat": "25.0516387",
+    "lng": "121.5595398",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "東基隆分行",
+    "address": "201基隆市信義區信一路133之8號",
+    "lat": "25.1291988",
+    "lng": "121.7453514",
+    "currencies": [
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "新板分行",
+    "address": "220新北市板橋區縣民大道二段98號",
+    "lat": "25.0149762",
+    "lng": "121.4647643",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "北師分行",
+    "address": "106台北市大安區和平東路二段347-5號",
+    "lat": "25.0250327",
+    "lng": "121.5438023",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "江翠分行",
+    "address": "台新銀行江翠分行",
+    "lat": "25.0292905",
+    "lng": "121.4705878",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "松德分行",
+    "address": "110台北市信義區忠孝東路五段408號",
+    "lat": "25.0407117",
+    "lng": "121.5728283",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "北大分行",
+    "address": "300新竹市北區北大路457號",
+    "lat": "24.8019906",
+    "lng": "120.9579844",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "關東橋分行",
+    "address": "300新竹市東區光復路一段271號",
+    "lat": "24.7822465",
+    "lng": "121.0174422",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "竹北分行",
+    "address": "302新竹縣竹北市中正東路331號",
+    "lat": "24.8353333",
+    "lng": "121.0092041",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "南寮分行",
+    "address": "300新竹市北區東大路三段543號",
+    "lat": "24.8406419",
+    "lng": "120.9347366",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "員林分行",
+    "address": "510彰化縣員林市育英路28號",
+    "lat": "23.9582592",
+    "lng": "120.5732385",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "市府分行",
+    "address": "407台中市西屯區文心路二段91號",
+    "lat": "24.1578657",
+    "lng": "120.6443026",
+    "currencies": [
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "右昌分行",
+    "address": "811高雄市楠梓區後昌路750號",
+    "lat": "22.7104406",
+    "lng": "120.2941121",
+    "currencies": [
+      "AUD",
+      "CAD",
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "NZD",
+      "SGD",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "竹南分行",
+    "address": "350苗栗縣竹南鎮民族街61號",
+    "lat": "24.6851593",
+    "lng": "120.8760499",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "羅東分行",
+    "address": "265宜蘭縣羅東鎮公正路153號",
+    "lat": "24.678365",
+    "lng": "121.7677994",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "東湖分行",
+    "address": "114台北市內湖區成功路五段452-1號",
+    "lat": "25.0744207",
+    "lng": "121.6046559",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "副都心分行",
+    "address": "242新北市新莊區中原路150號",
+    "lat": "25.0545244",
+    "lng": "121.452811",
+    "currencies": [
+      "CNY",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "景美分行",
+    "address": "116台北市文山區車前路11號",
+    "lat": "24.9912838",
+    "lng": "121.5387143",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "雄科分行",
+    "address": "806高雄市前鎮區復興四路21號",
+    "lat": "22.6048861",
+    "lng": "120.2979092",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  },
+  {
+    "bank": "台新銀行",
+    "branch": "",
+    "address": "",
+    "lat": "",
+    "lng": "",
+    "currencies": [
+      "CNY",
+      "EUR",
+      "HKD",
+      "JPY",
+      "USD"
+    ]
+  }
+]

@@ -29,7 +29,10 @@ atm_geocoded.json               ← 主表（1,960 筆，含 lat/lng）
    ├── ctbc_currencies.json      ├─ merge_currencies.py
    ├── esunbank_currencies.json  │  子字串比對 join
    ├── hncb_currencies.json      │
-   └── sinopac_currencies.json  ─┘
+   ├── sinopac_currencies.json   │
+   ├── taishinbank_currencies.json │
+   ├── bot_currencies.json       │
+   └── firstbank_currencies.json ─┘
           ↓
 atm_with_currencies.json        ← 最終完整表（前端讀這個）
 ```
@@ -461,6 +464,51 @@ FISC 與官網地址完全一致，直接套用 FISC 資料可信。
 | 裝設地點 | 地址 | 備註 |
 |---------|------|------|
 | 溪湖分行 | 彰化縣溪湖鎮西環路250號 | FISC 有，但 XML 爬蟲未抓到，待查 |
+
+---
+
+### 臺灣銀行（代號 004）
+
+- **爬蟲腳本**：`scripts/scrape_bot.py`
+- **輸出**：`data/processed/bot_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：直接套用 FISC（官網調查確認統一幣別）
+- **FISC 筆數**：44
+- **比對結果**：44/44（100%，直接套用）
+
+**調查結論：統一幣別 USD / HKD / JPY / CNY（無 EUR）**
+
+- 官網明確列出：美金 100 元、港幣 500 元、日圓 10,000 元、人民幣 100 元
+- 無個別機台差異說明
+- 官網地圖（bot.map.com.tw）只列約 20 個地點，**FISC 的 44 筆更完整**（含桃園機場 6 台：一/二航廈 × 入境/出境 × 不同樓層）
+- 結論：以 FISC 為主，統一套用 4 種幣別
+
+---
+
+### 第一商業銀行（代號 007）
+
+- **爬蟲腳本**：`scripts/scrape_firstbank.py`
+- **輸出**：`data/processed/firstbank_currencies.json`
+- **爬取日期**：2026-05-11
+- **方式**：REST API（`POST /sites/REST/controller/ATMNearYouRevCTL/searchATM`），免 bot 保護
+- **FISC 筆數**：42
+- **API 回傳**：42（外幣提款 5 + 臺外幣二合一提款機 37）
+- **比對結果**：42/42（100%，FISC 地址對齊良好）
+
+**機型說明：**
+
+| 機型 | 台數 | 查詢參數 |
+|------|------|---------|
+| 外幣提款 | 5 | `searchATMFunctionId=1565691865002` |
+| 臺外幣二合一提款機 | 37 | `searchATMFunctionId=1565691865023` |
+
+**幣別決策：保守標記 USD / JPY**
+
+官網說明「USD/JPY 全機台，CNY/HKD 部份機台」，但 API 回傳資料（含 `branchAtmFunctionOther`、`branchTagsList`）**均不含幣別細節**，`branchAtmFunctionOther` 的 ID 是無障礙功能（輪椅ATM、無卡提款、視障ATM），與幣別無關。
+
+無法從 API 判斷哪台有 CNY/HKD，保守標記全部 42 台為 `["JPY", "USD"]`。
+
+> 若日後第一銀行公開更詳細的機台幣別資料，可重新爬取並更新。
 
 ---
 

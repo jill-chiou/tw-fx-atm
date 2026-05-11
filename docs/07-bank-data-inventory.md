@@ -32,8 +32,8 @@
 | 5 | 兆豐國際商業銀行 | 122 | https://www.megabank.com.tw/about/mega-intro/locations?tab=3 | 動態表格 | **Y** | Playwright / requests | **各據點幣別（USD/JPY/EUR/CNY）明確列出**，是大型銀行中透明度最高的 |
 | 6 | 永豐商業銀行 | 91 | https://bank.sinopac.com/MMA8/CustomerService/BranchService/ATM.html | 動態地圖+篩選 | 不確定 | Playwright | 有日幣/人民幣/美金/港幣篩選，整合 Google Maps |
 | 7 | 華南商業銀行 | 47 | https://www.hncb.com.tw/wps/portal/HNCB/locations/atm | 動態表格 | 不確定 | Playwright | 有 USD/CNY/HKD/JPY 篩選；另有 PDF 清單可下載（無幣別） |
-| 8 | 臺灣銀行 | 44 | https://bot.map.com.tw/search_engine/search_atm.asp | 動態地圖 | N | Playwright | 有「外幣」篩選但無幣別分類 |
-| 9 | 第一商業銀行 | 42 | https://www.firstbank.com.tw/sites/fcb/touch/1565687626618 | 動態地圖 | N | Playwright | 有「外幣提款」/「臺外幣二合一」篩選；嵌入 JSON 地理資料但無 API URL |
+| 8 | 臺灣銀行 | 44 | https://www.bot.com.tw/tw/personal-banking/foreign-exchange/foreign-currency-cash-exchange/foreign-currency-ATM | 靜態說明頁 | **Y（統一）** | 直接套用 FISC | 官網明確說明全行統一：USD/HKD/JPY/CNY；無 EUR。官網地圖（~20 筆）比 FISC（44 筆）少，FISC 更完整（含桃園機場 6 台等）|
+| 9 | 第一商業銀行 | 42 | https://www.firstbank.com.tw/sites/fcb/ATMNearYou | 動態地圖 + REST API | **Y（保守）** | requests POST API | API endpoint: `/sites/REST/controller/ATMNearYouRevCTL/searchATM`，免 bot 保護。兩種機型：外幣提款（5）+ 臺外幣二合一（37）= 42 台。API 不回傳幣別，保守標記 USD/JPY |
 | 10 | 台北富邦商業銀行 | 39 | https://www.fubon.com/banking/locations/locations.htm?type=atm&zoned=0&tab=1 | 動態地圖 | N | Playwright | 僅美金/日幣兩種；無幣別資訊 |
 | 11 | 臺灣新光商業銀行 | 29 | https://www.skbank.com.tw/DE-FCATM/ | **靜態 HTML 表格** | **Y** | requests + BeautifulSoup | **最易爬取**，約 15-20 個據點，幣別逐台列出（USD/JPY/CNY/HKD） |
 | 12 | 合作金庫商業銀行 | 15 | https://www.tcb-bank.com.tw/about-tcb/info/locations/foreign-exchange?tab=3 | 動態表格 | 不確定 | Playwright | 備註「幣別依各分行放置為準」；有美金/日幣篩選 |
@@ -125,17 +125,17 @@ FISC 同銀行共 29 筆，以子字串比對（官網 branch ⊂ FISC 裝設地
 
 | 排名 | 銀行名稱 | 台數 | 占比 | 幣別爬蟲狀態 |
 |------|---------|------|------|------------|
-| 1 | 台新國際商業銀行 | 1,026 | 52% | ⏳ 待處理（官網無幣別，需逆向 API）|
-| 2 | 國泰世華商業銀行 | 171 | 9% | ⏳ 待處理 |
-| 3 | 中國信託商業銀行 | 167 | 9% | ⏳ 待處理 |
-| 4 | 玉山商業銀行 | 139 | 7% | ⏳ 待處理 |
-| 5 | 兆豐國際商業銀行 | 122 | 6% | ✅ 完成（118 筆幣別）|
-| 6 | 永豐商業銀行 | 91 | 5% | ✅ 完成（95 筆，merge 新增 73）|
-| 7 | 華南商業銀行 | 47 | 2% | ⏳ 待處理 |
-| 8 | 臺灣銀行 | 44 | 2% | ⏳ 待處理 |
-| 9 | 第一商業銀行 | 42 | 2% | ⏳ 待處理 |
+| 1 | 台新國際商業銀行 | 1,026 | 52% | ✅ 完成（1,011 筆，機台層級）|
+| 2 | 國泰世華商業銀行 | 171 | 9% | ✅ 完成（171 筆，USD/JPY）|
+| 3 | 中國信託商業銀行 | 167 | 9% | ✅ 完成（167 筆，統一 USD/JPY/CNY）|
+| 4 | 玉山商業銀行 | 139 | 7% | ✅ 完成（136 筆）|
+| 5 | 兆豐國際商業銀行 | 122 | 6% | ✅ 完成（114 筆）|
+| 6 | 永豐商業銀行 | 91 | 5% | ✅ 完成（74 筆命中）|
+| 7 | 華南商業銀行 | 47 | 2% | ✅ 完成（46 筆）|
+| 8 | 臺灣銀行 | 44 | 2% | ✅ 完成（44 筆，統一 USD/HKD/JPY/CNY）|
+| 9 | 第一商業銀行 | 42 | 2% | ✅ 完成（42 筆，保守 USD/JPY）|
 | 10 | 台北富邦商業銀行 | 39 | 2% | ⏳ 待處理 |
-| 11 | 臺灣新光商業銀行 | 29 | 1% | ✅ 完成（18 筆幣別）|
+| 11 | 臺灣新光商業銀行 | 29 | 1% | ✅ 完成（17 筆命中）|
 | 12 | 合作金庫商業銀行 | 15 | 1% | ⏳ 待處理 |
 | 13 | 臺灣土地銀行 | 12 | 1% | ⏳ 待處理 |
 | 14 | 元大商業銀行 | 7 | 0% | ⏳ 待處理 |
@@ -143,9 +143,11 @@ FISC 同銀行共 29 筆，以子字串比對（官網 branch ⊂ FISC 裝設地
 | 16 | 上海商業儲蓄銀行 | 2 | 0% | ⏳ 待處理 |
 | 17 | 彰化商業銀行 | 1 | 0% | ⏳ 待處理 |
 
-### 累積覆蓋率試算
+### 累積覆蓋率（2026-05-11 現況）
 
-| 完成銀行 | 累積台數 | 覆蓋率 |
-|---------|---------|--------|
-| 新光 + 兆豐 + 國泰世華 + 中信 + 玉山 + 華南 + 永豐（已完成）| 719 | 36% |
-| + 台新 | 1,745 | 89% |
+| 完成銀行 | 幣別有資料台數 | 覆蓋率 |
+|---------|-------------|--------|
+| 台新 + 兆豐 + 國泰世華 + 中信 + 玉山 + 華南 + 永豐 + 新光（2026-05-11 commit）| 1,140 | 58% |
+| + 臺灣銀行 | 1,184 | 60% |（fallback 合計 1,799，91%）
+| + 第一商業銀行 | 1,226 | 63% |（fallback 合計 1,839，93%）
+| 剩餘缺口（台北富邦 39 + 合庫 15 + 土銀 12 + 元大 7 + 企銀 6 + 上海商銀 2 + 彰銀 1）| — | ~82 台 |

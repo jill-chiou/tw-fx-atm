@@ -2,7 +2,7 @@
 
 > 目標：把目前 MVP 從「能用的地圖」推進成「手機上真的好查、好看、可維護的外幣 ATM 工具」。
 
-> 目前狀態（2026-05-09）：UI 第二版已落地到 `index.html`，包含圓形 marker、浮動搜尋列、bottom sheet、銀行篩選面板與文字搜尋。資料來源盤點已整理到 `docs/07-bank-data-inventory.md`。下一步從「研究」轉為「UI polish QA + 新光銀行幣別爬蟲 POC」。
+> 目前狀態（2026-05-09）：UI 第二版已落地到 `index.html`，包含圓形 marker、浮動搜尋列、bottom sheet、銀行篩選面板與文字搜尋。資料來源盤點已整理到 `docs/08-bank-data-inventory.md`。下一步從「研究」轉為「UI polish QA + 新光銀行幣別爬蟲 POC」。
 
 ---
 
@@ -75,7 +75,7 @@
 
 ## 3. 幣別資料盤點策略
 
-**狀態：已完成第一輪盤點，詳見 `docs/07-bank-data-inventory.md`。下一步是新光銀行 POC。**
+**狀態：已完成第一輪盤點，詳見 `docs/08-bank-data-inventory.md`。下一步是新光銀行 POC。**
 
 目前主資料來源是財金資訊 PDF，優點是完整，缺點是只提供位置，不提供每台 ATM 的幣別明細。下一步要補 USD / JPY / HKD / EUR / CNY 等幣別，應該先盤點各銀行資料格式。
 
@@ -227,6 +227,6 @@ PDF 不一定比較難，重點看格式：
 3. [x] 把銀行篩選收進進階面板：主畫面只保留搜尋與定位。
 4. [x] 建資料來源 inventory：每家銀行一列，記錄來源格式與可爬性。
 5. [ ] UI polish QA：搜尋無結果、全消銀行、點擊列表打開 popup、手機高度與安全區。
-6. [x] 選 1 家銀行做幣別爬蟲 POC：新光銀行 18 筆、兆豐銀行 118 筆，均完成。詳見 `docs/08-currency-merge.md`。
+6. [x] 選 1 家銀行做幣別爬蟲 POC：新光銀行 18 筆、兆豐銀行 118 筆，均完成。詳見 `docs/09-currency-merge.md`。
 7. [x] 設計 merge 規則：子字串比對 + 手動 mapping 表，產出 `atm_with_currencies.json`。
-8. [x] 前端加幣別篩選：AND 邏輯，幣別 null 的 ATM 預設仍顯示。詳見 `docs/08-currency-merge.md`。
+8. [x] 前端加幣別篩選：AND 邏輯，幣別 null 的 ATM 預設仍顯示。詳見 `docs/09-currency-merge.md`。

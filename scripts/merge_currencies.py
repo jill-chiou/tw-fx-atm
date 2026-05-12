@@ -86,8 +86,24 @@ CITY_OVERRIDES: dict[tuple, str] = {
 # 當分行名稱配對失敗時，依各銀行 ATM 服務頁標示的最小支援幣別作 fallback
 # 只有 FISC 全數為外幣 ATM、且官網有明確說明幣別的銀行才放這裡
 FALLBACK_CURRENCIES: dict[str, list[str]] = {
-    # 台新 ATM 服務頁 (personal/digital/.../atm_service/): USD/JPY/RMB/EUR
+    # 台新 ATM 服務頁: USD/JPY/CNY/EUR
     "台新": ["CNY", "EUR", "JPY", "USD"],
+    # 兆豐機場 ATM（桃園/松山）官網 API 未回傳部分 hall，套用機場標準幣別
+    "兆豐": ["CNY", "EUR", "HKD", "JPY", "USD"],
+    # 新光官網 HTML 僅列分行型機台（18筆），其餘商場/醫院型用相同幣別 fallback
+    "新光": ["CNY", "HKD", "JPY", "USD"],
+    # 玉山非分行場所（醫院、大樓等）官網 HTML 未列，套用標準幣別
+    "玉山": ["CNY", "HKD", "JPY", "USD"],
+    # 華南溪湖分行 XML 未回傳，套用標準幣別
+    "華南": ["CNY", "HKD", "JPY", "USD"],
+}
+
+# 官網確認不公開或不存在的機台，從輸出中排除
+# (銀行名稱關鍵字, FISC 裝設地點)
+FISC_EXCLUDE: set[tuple[str, str]] = {
+    ("永豐", "南山人壽-民權(不對外)"),   # 不對外服務
+    ("第一", "中華航空公司組派大樓2F"),   # 官網無此機台
+    ("第一", "金湖停車場"),              # 官網無此機台
 }
 
 
@@ -144,8 +160,8 @@ def build_lookup(scraped: list[dict]) -> dict:
         branch = normalize_branch(item["branch"])
         currencies = item["currencies"]
 
-        # 找出 bank 的短關鍵字（去掉「銀行」）
-        bank_kw = bank.replace("銀行", "").replace("國際商業", "").replace("商業", "")
+        # 找出 bank 的短關鍵字（去掉通用詞）
+        bank_kw = bank.replace("銀行", "").replace("國際商業", "").replace("商業", "").replace("儲蓄", "")
 
         # 手動 mapping
         manual_fisc = branch_to_fisc.get((bank_kw, branch))
@@ -169,8 +185,8 @@ def find_currencies(fisc_bank: str, fisc_loc: str, lookup: dict) -> list | None:
         # bank 必須吻合
         if bank_kw not in fisc_bank:
             continue
-        # FISC 裝設地點含 branch_or_fisc（子字串比對）
-        if branch_or_fisc in fisc_loc:
+        # 子字串雙向比對：scraper branch 在 FISC loc 裡，或 FISC loc 在 scraper branch 裡
+        if branch_or_fisc in fisc_loc or fisc_loc in branch_or_fisc:
             return currencies
     # fallback：非分行場所的 ATM 套用該銀行的最小幣別集合
     for bank_kw, fallback in FALLBACK_CURRENCIES.items():
@@ -223,18 +239,23 @@ def main():
 
     lookup = build_lookup(scraped)
 
-    matched = fallback_matched = unmatched = 0
+    matched = fallback_matched = unmatched = excluded = 0
     result = []
     for entry in fisc_data:
         bank_name = entry.get("銀行名稱", "")
         loc       = entry.get("裝設地點", "")
+
+        # 官網確認不存在或不對外的機台，直接排除
+        if any(kw in bank_name and loc == exc_loc for kw, exc_loc in FISC_EXCLUDE):
+            excluded += 1
+            continue
 
         # 先嘗試分行名稱精確配對，再嘗試 fallback
         currencies = None
         for (bank_kw, branch_or_fisc), currs in lookup.items():
             if bank_kw not in bank_name:
                 continue
-            if branch_or_fisc in loc:
+            if branch_or_fisc in loc or loc in branch_or_fisc:
                 currencies = currs
                 matched += 1
                 break
@@ -261,12 +282,13 @@ def main():
     total = len(result)
     with_cur = matched + fallback_matched + len(gap_b)
     scraped_banks = {item["bank"] for item in scraped}
-    print(f"總筆數：{total}（FISC {len(fisc_data)} + Gap B {len(gap_b)}）")
+    print(f"總筆數：{total}（FISC {len(fisc_data) - excluded} + Gap B {len(gap_b)}，排除 {excluded} 筆）")
     print(f"有幣別（分行精確配對）：{matched}")
     print(f"有幣別（fallback 配對）：{fallback_matched}")
     print(f"有幣別（Gap B 補入）：{len(gap_b)}")
     print(f"有幣別合計：{with_cur}（{with_cur * 100 // total}%）")
     print(f"無幣別：{unmatched}")
+    print(f"排除（非公開）：{excluded}")
     print(f"已爬銀行：{', '.join(sorted(scraped_banks))}")
     print(f"輸出：{OUTPUT}")
 

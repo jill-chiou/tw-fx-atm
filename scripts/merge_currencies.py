@@ -6,6 +6,7 @@ merge 規則:
   1. 以「銀行名稱含 bank」+ 「裝設地點含 branch」做子字串比對
   2. 特殊地點（機場等）用手動 mapping 表補充
   3. 無法比對 → currencies: null
+  4. Gap B ATM（爬蟲有、FISC 無）→ 以 source="bank_website" 追加
 """
 
 import json
@@ -58,12 +59,63 @@ PENDING = {
     ("兆豐", "新店分行"),
 }
 
+# Gap B 設定：爬蟲有獨立資料、且台數多於 FISC 的銀行
+GAP_B_BANKS = [
+    {
+        "scraper_file": "cathaybk_currencies.json",
+        "fisc_name":    "國泰世華商業銀行",
+        "bank_code":    "013",
+    },
+    {
+        "scraper_file": "esunbank_currencies.json",
+        "fisc_name":    "玉山商業銀行",
+        "bank_code":    "808",
+    },
+    {
+        "scraper_file": "sinopac_currencies.json",
+        "fisc_name":    "永豐商業銀行",
+        "bank_code":    "807",
+    },
+]
+
+# 地址不完整的分行手動補縣市
+CITY_OVERRIDES: dict[tuple, str] = {
+    ("永豐商業銀行", "新莊副都心分行"): "新北市",
+}
+
 # 當分行名稱配對失敗時，依各銀行 ATM 服務頁標示的最小支援幣別作 fallback
 # 只有 FISC 全數為外幣 ATM、且官網有明確說明幣別的銀行才放這裡
 FALLBACK_CURRENCIES: dict[str, list[str]] = {
     # 台新 ATM 服務頁 (personal/digital/.../atm_service/): USD/JPY/RMB/EUR
     "台新": ["CNY", "EUR", "JPY", "USD"],
 }
+
+
+def normalize_addr(addr: str) -> str:
+    """正規化地址，用於 Gap B 比對。"""
+    addr = addr.strip().replace('臺', '台')
+    addr = re.sub(r'^\d{3,5}', '', addr).strip()
+    addr = re.sub(r'^[^\s]{2,6}[市縣][^\s]{2,4}[區鄉鎮市]', '', addr).strip()
+    for ch, d in zip('一二三四五六七八九', '123456789'):
+        addr = addr.replace(f'{ch}段', f'{d}段')
+    addr = re.sub(r'(\d+)-(\d+)', r'\1之\2', addr)
+    addr = re.sub(r'(\d+)號之(\d+)', r'\1之\2號', addr)
+    addr = re.sub(r'\s+', '', addr)
+    addr = re.sub(r'[\dB]\d*[樓FfBb層].*$', '', addr)
+    addr = re.sub(r'及.*$', '', addr)
+    addr = re.sub(r'(\d+)[、,，]\d+.*號', r'\1號', addr)
+    addr = re.sub(r'[（(][^)）]*[)）]', '', addr)
+    return addr.strip()
+
+
+def extract_city(addr: str, bank_name: str, branch: str) -> str:
+    """從地址擷取縣市欄位；缺失時查 CITY_OVERRIDES。"""
+    override = CITY_OVERRIDES.get((bank_name, branch))
+    if override:
+        return override
+    addr = addr.replace('臺', '台')
+    m = re.match(r'^\d{0,5}\s*([^\s]{2,4}[市縣])', addr)
+    return m.group(1) if m else ''
 
 
 def normalize_branch(branch: str) -> str:
@@ -127,6 +179,39 @@ def find_currencies(fisc_bank: str, fisc_loc: str, lookup: dict) -> list | None:
     return None
 
 
+def find_gap_b(fisc_data: list[dict]) -> list[dict]:
+    """回傳爬蟲有、FISC 無的 ATM，格式與 atm_with_currencies.json 相同。"""
+    gap_b = []
+    for cfg in GAP_B_BANKS:
+        fpath = ROOT / "data/processed" / cfg["scraper_file"]
+        if not fpath.exists():
+            continue
+        scraper_data = json.loads(fpath.read_text(encoding="utf-8"))
+        fisc_entries = [x for x in fisc_data if x["銀行名稱"] == cfg["fisc_name"]]
+        fisc_addr_set   = {normalize_addr(x["地址"]) for x in fisc_entries}
+        fisc_branch_set = {x["裝設地點"] for x in fisc_entries}
+
+        for item in scraper_data:
+            branch    = item["branch"]
+            norm_addr = normalize_addr(item.get("address", ""))
+            addr_hit   = norm_addr in fisc_addr_set
+            branch_hit = any(branch in fb or fb in branch for fb in fisc_branch_set)
+            if addr_hit or branch_hit:
+                continue
+            gap_b.append({
+                "代號":    cfg["bank_code"],
+                "銀行名稱": cfg["fisc_name"],
+                "裝設地點": branch,
+                "縣市":    extract_city(item.get("address", ""), cfg["fisc_name"], branch),
+                "地址":    item.get("address", ""),
+                "lat":     item.get("lat", ""),
+                "lng":     item.get("lng", ""),
+                "currencies": item.get("currencies"),
+                "source":  "bank_website",
+            })
+    return gap_b
+
+
 def main():
     fisc_data = json.loads(GEOCODED.read_text(encoding="utf-8"))
 
@@ -164,16 +249,23 @@ def main():
 
         new_entry = dict(entry)
         new_entry["currencies"] = currencies
+        new_entry["source"] = "fisc"
         result.append(new_entry)
+
+    # Gap B：爬蟲有、FISC 無的 ATM，直接追加
+    gap_b = find_gap_b(fisc_data)
+    result.extend(gap_b)
 
     OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
     total = len(result)
+    with_cur = matched + fallback_matched + len(gap_b)
     scraped_banks = {item["bank"] for item in scraped}
-    print(f"總筆數：{total}")
+    print(f"總筆數：{total}（FISC {len(fisc_data)} + Gap B {len(gap_b)}）")
     print(f"有幣別（分行精確配對）：{matched}")
     print(f"有幣別（fallback 配對）：{fallback_matched}")
-    print(f"有幣別合計：{matched + fallback_matched}（{(matched + fallback_matched)*100//total}%）")
+    print(f"有幣別（Gap B 補入）：{len(gap_b)}")
+    print(f"有幣別合計：{with_cur}（{with_cur * 100 // total}%）")
     print(f"無幣別：{unmatched}")
     print(f"已爬銀行：{', '.join(sorted(scraped_banks))}")
     print(f"輸出：{OUTPUT}")

@@ -70,6 +70,7 @@
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
       background: var(--surface); border-radius: 16px 16px 0 0;
       box-shadow: 0 -2px 20px rgba(0,0,0,.12);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     #sheet-handle-wrap {
       padding: 8px 0 4px; cursor: pointer;
@@ -360,14 +361,14 @@
 
     if (q) {
       items = allMarkers
-        .filter(({ bank, data }) => activeSet.has(bank) && matchQuery(q, bank, data))
+        .filter(({ bank, data }) => activeSet.has(bank) && matchQuery(q, bank, data) && matchesCurrency(data))
         .slice(0, 40);
       document.getElementById("sheet-title").textContent = `搜尋「${searchQuery.trim()}」`;
       document.getElementById("sheet-count").textContent = `${items.length} 筆`;
 
     } else if (userLat !== null) {
       items = allMarkers
-        .filter(({ bank }) => activeSet.has(bank))
+        .filter(({ bank, data }) => activeSet.has(bank) && matchesCurrency(data))
         .map(x => ({ ...x, dist: haversine(userLat, userLng, parseFloat(x.data.lat), parseFloat(x.data.lng)) }))
         .sort((a, b) => a.dist - b.dist)
         .slice(0, 20);
@@ -375,7 +376,7 @@
       document.getElementById("sheet-count").textContent = `最近 ${items.length} 筆`;
 
     } else {
-      const visible = allMarkers.filter(m => activeSet.has(m.bank)).length;
+      const visible = allMarkers.filter(({ bank, data }) => activeSet.has(bank) && matchesCurrency(data)).length;
       document.getElementById("sheet-title").textContent = "外幣 ATM";
       document.getElementById("sheet-count").textContent = `共 ${visible} 筆`;
       sheetList.innerHTML = `
@@ -429,10 +430,16 @@
       el.addEventListener("click", () => {
         const lat = parseFloat(el.dataset.lat);
         const lng = parseFloat(el.dataset.lng);
+        setSheetExpanded(false);
         map.setView([lat, lng], 17);
         items[i].marker.openPopup();
       });
     });
+  }
+
+  function matchesCurrency(data) {
+    return activeCurrencies.size === 0
+      || [...activeCurrencies].every(c => data.currencies.includes(c));
   }
 
   // ── markers ──
@@ -441,9 +448,7 @@
     allMarkers.forEach(({ marker, bank, data }) => {
       const inFilter = activeSet.has(bank);
       const inSearch = !q || matchQuery(q, bank, data);
-      const inCurrency = activeCurrencies.size === 0
-        || data.currencies === null
-        || (data.currencies && [...activeCurrencies].every(c => data.currencies.includes(c)));
+      const inCurrency = matchesCurrency(data);
       const show = inFilter && inSearch && inCurrency;
       if (show && !map.hasLayer(marker)) marker.addTo(map);
       else if (!show && map.hasLayer(marker)) map.removeLayer(marker);

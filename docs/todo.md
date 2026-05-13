@@ -1,22 +1,25 @@
 # 待辦事項
 
-## 待做
+## 當前計畫（依序進行）
 
-### 資料品質
-- [ ] Gap B 盤點：各銀行官網台數 vs FISC，找出 FISC 漏收的 ATM（目前只做了 Gap A）
-- [ ] Merge 邏輯改進：永豐 `-市政分行` 前置符號、兆豐 `(營業廳)` 後綴等，上 DB 後用 SQL 正規化改善
-- [ ] 剩餘 45 筆 `currencies: null`：均為行外 ATM 或名稱格式不符，難以自動對齊
+### 階段一：前端修正
 
-### 架構升級
-- [ ] SQLite 資料庫：設計 schema（atm_locations / bank_currencies / source_log），改寫 pipeline
-  - FISC → `atm_locations`；爬蟲輸出 → `bank_currencies`；merge → view；export JSON 給前端
-  - 前端讀的 JSON 不變，只換產生方式
+- [x] **F1** — 移除 stale null 邏輯：`redraw()` 的 `|| data.currencies === null` 已無效，現在 100% 有幣別資料
+- [x] **F2a** — sheet list 幣別同步：`updateSheetList()` 未套用幣別篩選，地圖與列表可能不一致（搜尋、附近、計數三條路徑都要修）
+- [x] **F2b** — 點列表後收起 bottom sheet：避免 popup 被 sheet 遮住
+- [x] **F2c** — 手機安全區：`#bottom-sheet` 補 `padding-bottom: env(safe-area-inset-bottom)` 避免 iPhone 主頁指示條遮住最後一列
 
-### 前端
-- [ ] 前端顯示幣別覆蓋狀態（無幣別資訊的機台加「幣別資訊不完整」灰色提示）
-- [ ] UI polish QA：搜尋無結果、全消銀行、點擊列表打開 popup、手機高度與安全區
+### 階段二：架構升級
 
-### 維運
+- [ ] **A1** — SQLite pipeline：設計 schema（`atm_locations` / `bank_currencies` / `source_log`），改寫 merge 腳本
+  - FISC → `atm_locations`；爬蟲 JSON → `bank_currencies`；merge 結果 → SQL view；export JSON 給前端
+  - 前端讀的 `atm_with_currencies.json` 格式不變，只換產生方式
+  - `source` 欄位（`fisc` / `bank_website`）可直接成為 `source_log` table 欄位
+
+---
+
+## 維運（等時間 / 等 FISC 更新）
+
 - [ ] 月更腳本驗證：`scripts/update_from_fisc.py` 確認 CCR 排程正常（首次自動執行 2026/06/01）
 - [ ] 兆豐「新店分行」、中信「全家\_葵爾特店」：待 FISC 下次更新後確認是否出現
 
@@ -42,7 +45,8 @@
 - [x] 元大商業銀行（7 筆，直接套用 FISC，保守 USD/JPY）
 - [x] 臺灣中小企業銀行（6 筆，直接套用 FISC，保守 USD/JPY）
 - [x] 彰化商業銀行（1 筆，直接套用 FISC，保守 USD/JPY）
-- [x] **覆蓋率：1,915 / 1,960（97%）**
+- [x] Gap A/B 分析與 merge 修正：100% 覆蓋率（詳見 `docs/11-gap-analysis-and-merge-fixes.md`）
+- [x] **覆蓋率：1,971 / 1,971（100%）**
 
 ### 資料建置
 - [x] PDF 解析 → atm_data.csv（1,962 筆）

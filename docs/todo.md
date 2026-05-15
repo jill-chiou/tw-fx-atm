@@ -11,10 +11,8 @@
 
 ### 階段二：架構升級
 
-- [ ] **A1** — SQLite pipeline：設計 schema（`atm_locations` / `bank_currencies` / `source_log`），改寫 merge 腳本
-  - FISC → `atm_locations`；爬蟲 JSON → `bank_currencies`；merge 結果 → SQL view；export JSON 給前端
-  - 前端讀的 `atm_with_currencies.json` 格式不變，只換產生方式
-  - `source` 欄位（`fisc` / `bank_website`）可直接成為 `source_log` table 欄位
+- [x] **A1** — SQLite pipeline：設計 schema（`atm_locations` / `bank_currencies` / `source_log`），改寫 merge 腳本（2026-05-13 完成，詳見 `docs/12-sqlite-pipeline-plan.md`）
+  - FISC 1,949 筆 + Gap B 22 筆 = 1,971 筆；幣別 3,637 筆（精確 1,908 台、fallback 41 台）；驗證通過
 
 ---
 

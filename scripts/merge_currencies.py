@@ -143,6 +143,14 @@ def extract_city(addr: str, bank_name: str, branch: str) -> str:
     return m.group(1) if m else ''
 
 
+FULLWIDTH_DIGITS = str.maketrans("０１２３４５６７８９", "0123456789")
+
+
+def to_halfwidth(s: str) -> str:
+    """全形數字轉半形，供比對用（FISC 與爬蟲來源全/半形不一致）。"""
+    return s.translate(FULLWIDTH_DIGITS)
+
+
 def normalize_branch(branch: str) -> str:
     """正規化 branch 名稱，消除常見格式差異。"""
     # 兆豐官網在某些分行後帶「(營業廳)」/「（營業廳）」，FISC 通常不帶或以不同方式標記
@@ -261,10 +269,12 @@ def main():
 
         # 先嘗試分行名稱精確配對，再嘗試 fallback
         currencies = None
+        loc_norm = to_halfwidth(loc)
         for (bank_kw, branch_or_fisc), currs in lookup.items():
             if bank_kw not in bank_name:
                 continue
-            if branch_or_fisc in loc or loc in branch_or_fisc:
+            branch_norm = to_halfwidth(branch_or_fisc)
+            if branch_norm in loc_norm or loc_norm in branch_norm:
                 currencies = currs
                 matched += 1
                 break

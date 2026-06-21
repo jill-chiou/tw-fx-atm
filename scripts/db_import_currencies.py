@@ -63,6 +63,13 @@ FALLBACK_CURRENCIES: dict[str, list[str]] = {
 }
 
 
+FULLWIDTH_DIGITS = str.maketrans("０１２３４５６７８９", "0123456789")
+
+
+def to_halfwidth(s: str) -> str:
+    return s.translate(FULLWIDTH_DIGITS)
+
+
 def normalize_branch(branch: str) -> str:
     branch = re.sub(r'[（(]營業廳[)）]', '', branch).strip()
     branch = branch.lstrip('-').strip()
@@ -116,7 +123,7 @@ def match_currencies(bank_name: str, location: str, lookup: dict) -> tuple[list 
     for (bank_kw, branch_or_fisc), currencies in lookup.items():
         if bank_kw not in bank_name:
             continue
-        if branch_or_fisc in location or location in branch_or_fisc:
+        if to_halfwidth(branch_or_fisc) in to_halfwidth(location) or to_halfwidth(location) in to_halfwidth(branch_or_fisc):
             return currencies, False
 
     for bank_kw, fallback in FALLBACK_CURRENCIES.items():

@@ -24,7 +24,7 @@ https://jill-chiou.github.io/tw-fx-atm
 ## 目前狀態
 
 - [x] Phase 1–3 全部完成（地圖、RWD、幣別爬蟲、SQLite pipeline）
-- [ ] 月更腳本驗證（首次自動執行 2026-06-01）
+- [x] 月更腳本驗證（2026-06-10 手動執行：無差異，FISC 1,961 筆，環境正常）
 
 ## 待確認
 

@@ -13,6 +13,11 @@ def init_db(db_path: Path = DB_PATH) -> None:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.executescript("""
+        DROP TABLE IF EXISTS bank_currencies;
+        DROP TABLE IF EXISTS scrape_log;
+        DROP TABLE IF EXISTS atm_locations;
+        DROP VIEW  IF EXISTS atm_export;
+
         CREATE TABLE IF NOT EXISTS atm_locations (
             id          INTEGER PRIMARY KEY AUTOINCREMENT,
             bank_code   TEXT NOT NULL,

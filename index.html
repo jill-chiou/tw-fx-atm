@@ -262,13 +262,7 @@
   </div>
   <div class="currency-section">
     <div class="currency-section-label">幣別</div>
-    <div class="currency-chips" id="currency-chips">
-      <button class="currency-chip" data-currency="USD">美元 USD</button>
-      <button class="currency-chip" data-currency="JPY">日圓 JPY</button>
-      <button class="currency-chip" data-currency="CNY">人民幣 CNY</button>
-      <button class="currency-chip" data-currency="EUR">歐元 EUR</button>
-      <button class="currency-chip" data-currency="HKD">港幣 HKD</button>
-    </div>
+    <div class="currency-chips" id="currency-chips"></div>
   </div>
   <div id="filter-list"></div>
 </div>
@@ -439,7 +433,7 @@
 
   function matchesCurrency(data) {
     return activeCurrencies.size === 0
-      || [...activeCurrencies].every(c => data.currencies.includes(c));
+      || [...activeCurrencies].every(c => (data.currencies || []).includes(c));
   }
 
   // ── markers ──
@@ -469,14 +463,30 @@
   document.getElementById("btn-filter-close").addEventListener("click", closeFilter);
   document.getElementById("filter-overlay").addEventListener("click", closeFilter);
 
-  document.querySelectorAll(".currency-chip").forEach(chip => {
-    chip.addEventListener("click", () => {
-      const c = chip.dataset.currency;
-      if (activeCurrencies.has(c)) { activeCurrencies.delete(c); chip.classList.remove("on"); }
-      else                         { activeCurrencies.add(c);    chip.classList.add("on");    }
-      redraw();
+  // 幣別 chips 由資料動態產生（見 data load），中文名稱僅作顯示輔助
+  const CURRENCY_NAMES = {
+    USD: "美元", JPY: "日圓", CNY: "人民幣", EUR: "歐元", HKD: "港幣",
+    GBP: "英鎊", AUD: "澳幣", KRW: "韓元", SGD: "新加坡幣", CAD: "加拿大幣",
+  };
+
+  function buildCurrencyChips(data) {
+    const counts = {};
+    data.forEach(d => (d.currencies || []).forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
+    const codes = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+    const wrap = document.getElementById("currency-chips");
+    codes.forEach(code => {
+      const chip = document.createElement("button");
+      chip.className = "currency-chip";
+      chip.dataset.currency = code;
+      chip.textContent = CURRENCY_NAMES[code] ? `${CURRENCY_NAMES[code]} ${code}` : code;
+      chip.addEventListener("click", () => {
+        if (activeCurrencies.has(code)) { activeCurrencies.delete(code); chip.classList.remove("on"); }
+        else                            { activeCurrencies.add(code);    chip.classList.add("on");    }
+        redraw();
+      });
+      wrap.appendChild(chip);
     });
-  });
+  }
 
   // ── search ──
   const searchInput = document.getElementById("search-input");
@@ -540,6 +550,8 @@
     .then(r => r.json())
     .then(data => {
       const valid = data.filter(d => d.lat && d.lng);
+
+      buildCurrencyChips(valid);
 
       const banksOrdered = [];
       const seen = new Set();

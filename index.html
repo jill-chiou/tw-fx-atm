@@ -83,6 +83,12 @@
     }
     #sheet-title { font-size: 13px; font-weight: 600; color: var(--text); }
     #sheet-count { font-size: 12px; color: var(--text-2); }
+    .sheet-meta { display: flex; align-items: center; gap: 10px; }
+    #btn-lang {
+      font-size: 12px; font-weight: 600; color: var(--primary);
+      background: none; border: 1.5px solid var(--primary); border-radius: 8px;
+      padding: 2px 8px; cursor: pointer;
+    }
     #sheet-list { overflow-y: auto; transition: max-height .25s ease; }
 
     .sheet-item {
@@ -228,7 +234,7 @@
       <line x1="1" y1="9" x2="3.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       <line x1="14.5" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
-    定位
+    <span id="lbl-locate">定位</span>
   </button>
   <button class="fab" id="btn-filter">
     <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
@@ -236,7 +242,7 @@
       <line x1="4.5" y1="9" x2="13.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       <line x1="7" y1="13" x2="11" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
-    銀行
+    <span id="lbl-filter">銀行</span>
   </button>
 </div>
 
@@ -245,7 +251,10 @@
     <div class="handle-bar"></div>
     <div id="sheet-header-row">
       <span id="sheet-title">外幣 ATM</span>
-      <span id="sheet-count"></span>
+      <span class="sheet-meta">
+        <span id="sheet-count"></span>
+        <button id="btn-lang" aria-label="Switch language">EN</button>
+      </span>
     </div>
   </div>
   <div id="sheet-list"></div>
@@ -254,20 +263,87 @@
 <div id="filter-overlay"></div>
 <div id="filter-sheet">
   <div id="filter-sheet-head">
-    <h3>篩選</h3>
+    <h3 id="lbl-filter-title">篩選</h3>
     <div class="filter-actions">
       <button id="btn-sel-all">全消</button>
       <button id="btn-filter-close">×</button>
     </div>
   </div>
   <div class="currency-section">
-    <div class="currency-section-label">幣別</div>
+    <div class="currency-section-label" id="lbl-currency">幣別</div>
     <div class="currency-chips" id="currency-chips"></div>
   </div>
   <div id="filter-list"></div>
 </div>
 
 <script>
+  // ── i18n：介面文字、銀行名稱、幣別；分行名稱與地址維持中文 ──
+  const LANG = (() => {
+    try {
+      const saved = localStorage.getItem("lang");
+      if (saved === "zh" || saved === "en") return saved;
+    } catch (e) {}
+    return (navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en";
+  })();
+
+  const STR = {
+    zh: {
+      title: "台灣外幣 ATM 地圖", search: "搜尋銀行、地址、縣市…", locate: "定位", filter: "銀行",
+      filterTitle: "篩選", currency: "幣別", selAll: "全選", clearAll: "全消", langBtn: "EN",
+      atms: "外幣 ATM", nearby: "附近外幣 ATM", findNearby: "找附近 ATM", chooseBanks: "選擇銀行",
+      noMatch: "沒有符合的 ATM", youAreHere: "你在這裡",
+      searchTitle: q => `搜尋「${q}」`, nResults: n => `${n} 筆`, nNearest: n => `最近 ${n} 筆`, nTotal: n => `共 ${n} 筆`,
+      noGeo: "你的瀏覽器不支援定位功能",
+      geoErr: { 1: "請允許瀏覽器存取位置（設定 → Safari → 位置）", 2: "裝置無法取得位置訊號，請稍後再試", 3: "定位逾時，請確認 GPS 或網路正常後重試" },
+      geoFail: "定位失敗，請稍後再試",
+      loadFail: m => `資料載入失敗：${m}<br>請用 python3 -m http.server 8000 啟動後再開啟`,
+      bankCode: c => `代號 ${c}`,
+    },
+    en: {
+      title: "Taiwan Foreign-Currency ATM Map", search: "Search…", locate: "Near me", filter: "Filter",
+      filterTitle: "Filter", currency: "Currency", selAll: "Select all", clearAll: "Clear all", langBtn: "中",
+      atms: "Foreign-currency ATMs", nearby: "Nearby ATMs", findNearby: "Find nearby ATMs", chooseBanks: "Choose banks",
+      noMatch: "No matching ATMs", youAreHere: "You are here",
+      searchTitle: q => `“${q}”`, nResults: n => `${n} results`, nNearest: n => `Nearest ${n}`, nTotal: n => `${n.toLocaleString("en")} ATMs`,
+      noGeo: "Your browser does not support location.",
+      geoErr: { 1: "Please allow this site to access your location.", 2: "Your location is unavailable. Please try again later.", 3: "Location request timed out. Check GPS or network and try again." },
+      geoFail: "Could not get your location. Please try again.",
+      loadFail: m => `Failed to load data: ${m}<br>Serve this folder with python3 -m http.server 8000`,
+      bankCode: c => `Bank code ${c}`,
+    },
+  };
+  const T = STR[LANG];
+
+  const BANK_EN = {
+    "臺灣銀行": "Bank of Taiwan", "臺灣土地銀行": "Land Bank of Taiwan",
+    "合作金庫商業銀行": "Taiwan Cooperative Bank", "第一商業銀行": "First Commercial Bank",
+    "華南商業銀行": "Hua Nan Commercial Bank", "彰化商業銀行": "Chang Hwa Bank",
+    "上海商業儲蓄銀行": "Shanghai Commercial & Savings Bank", "台北富邦商業銀行": "Taipei Fubon Bank",
+    "國泰世華商業銀行": "Cathay United Bank", "兆豐國際商業銀行": "Mega International Commercial Bank",
+    "臺灣中小企業銀行": "Taiwan Business Bank", "臺灣新光商業銀行": "Shin Kong Commercial Bank",
+    "元大商業銀行": "Yuanta Commercial Bank", "永豐商業銀行": "Bank SinoPac",
+    "玉山商業銀行": "E.SUN Commercial Bank", "台新國際商業銀行": "Taishin International Bank",
+    "中國信託商業銀行": "CTBC Bank",
+  };
+  // 內部一律以中文銀行名稱為 key（篩選、顏色、搜尋），只在顯示時轉換
+  const bankLabel = bank => (LANG === "en" && BANK_EN[bank]) || bank;
+
+  document.documentElement.lang = LANG === "en" ? "en" : "zh-TW";
+  document.title = T.title;
+  document.getElementById("search-input").placeholder = T.search;
+  document.getElementById("lbl-locate").textContent = T.locate;
+  document.getElementById("lbl-filter").textContent = T.filter;
+  document.getElementById("lbl-filter-title").textContent = T.filterTitle;
+  document.getElementById("lbl-currency").textContent = T.currency;
+  document.getElementById("btn-sel-all").textContent = T.clearAll;
+  document.getElementById("sheet-title").textContent = T.atms;
+  document.getElementById("btn-lang").textContent = T.langBtn;
+  document.getElementById("btn-lang").addEventListener("click", e => {
+    e.stopPropagation(); // 不要觸發面板展開
+    try { localStorage.setItem("lang", LANG === "en" ? "zh" : "en"); } catch (e) {}
+    location.reload();
+  });
+
   const map = L.map("map").setView([23.97, 120.97], 8);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -289,7 +365,7 @@
 
   function displayBank(d) {
     const n = d["銀行名稱"];
-    return (!n || n === "#N/A") ? `代號 ${d["代號"]}` : n;
+    return (!n || n === "#N/A") ? T.bankCode(d["代號"]) : n;
   }
 
   function makeIcon(color) {
@@ -316,7 +392,7 @@
   // 搜尋比對：先試完整子字串，4字以上再試每2字一組的AND比對
   // 讓「高雄三民」能命中「高雄市三民區」（中間有「市」字隔開）
   function matchQuery(q, bank, data) {
-    const hay = [bank, data["裝設地點"] || "", data["地址"] || ""].join("").toLowerCase();
+    const hay = [bank, bankLabel(bank), data["裝設地點"] || "", data["地址"] || ""].join("").toLowerCase();
     if (hay.includes(q)) return true;
     if (q.length >= 4) {
       const chunks = [];
@@ -357,8 +433,8 @@
       items = allMarkers
         .filter(({ bank, data }) => activeSet.has(bank) && matchQuery(q, bank, data) && matchesCurrency(data))
         .slice(0, 40);
-      document.getElementById("sheet-title").textContent = `搜尋「${searchQuery.trim()}」`;
-      document.getElementById("sheet-count").textContent = `${items.length} 筆`;
+      document.getElementById("sheet-title").textContent = T.searchTitle(searchQuery.trim());
+      document.getElementById("sheet-count").textContent = T.nResults(items.length);
 
     } else if (userLat !== null) {
       items = allMarkers
@@ -366,13 +442,13 @@
         .map(x => ({ ...x, dist: haversine(userLat, userLng, parseFloat(x.data.lat), parseFloat(x.data.lng)) }))
         .sort((a, b) => a.dist - b.dist)
         .slice(0, 20);
-      document.getElementById("sheet-title").textContent = "附近外幣 ATM";
-      document.getElementById("sheet-count").textContent = `最近 ${items.length} 筆`;
+      document.getElementById("sheet-title").textContent = T.nearby;
+      document.getElementById("sheet-count").textContent = T.nNearest(items.length);
 
     } else {
       const visible = allMarkers.filter(({ bank, data }) => activeSet.has(bank) && matchesCurrency(data)).length;
-      document.getElementById("sheet-title").textContent = "外幣 ATM";
-      document.getElementById("sheet-count").textContent = `共 ${visible} 筆`;
+      document.getElementById("sheet-title").textContent = T.atms;
+      document.getElementById("sheet-count").textContent = T.nTotal(visible);
       sheetList.innerHTML = `
         <div class="sheet-empty">
           <button class="sheet-empty-btn" id="empty-btn-locate">
@@ -384,7 +460,7 @@
               <line x1="1" y1="9" x2="3.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               <line x1="14.5" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
-            找附近 ATM
+            ${T.findNearby}
           </button>
           <button class="sheet-empty-btn" id="empty-btn-filter">
             <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
@@ -392,7 +468,7 @@
               <line x1="4.5" y1="9" x2="13.5" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               <line x1="7" y1="13" x2="11" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
-            選擇銀行
+            ${T.chooseBanks}
           </button>
         </div>`;
       document.getElementById("empty-btn-locate").addEventListener("click", () => document.getElementById("btn-locate").click());
@@ -401,7 +477,7 @@
     }
 
     if (items.length === 0) {
-      sheetList.innerHTML = `<div class="sheet-empty">沒有符合的 ATM</div>`;
+      sheetList.innerHTML = `<div class="sheet-empty">${T.noMatch}</div>`;
       return;
     }
 
@@ -413,7 +489,7 @@
         <div class="sheet-item" data-lat="${data.lat}" data-lng="${data.lng}">
           <div class="item-dot" style="background:${color}"></div>
           <div class="item-info">
-            <div class="item-bank">${bank}</div>
+            <div class="item-bank">${bankLabel(bank)}</div>
             <div class="item-addr">${addr}</div>
           </div>
           ${distStr}
@@ -478,7 +554,7 @@
       const chip = document.createElement("button");
       chip.className = "currency-chip";
       chip.dataset.currency = code;
-      chip.textContent = CURRENCY_NAMES[code] ? `${CURRENCY_NAMES[code]} ${code}` : code;
+      chip.textContent = (LANG === "zh" && CURRENCY_NAMES[code]) ? `${CURRENCY_NAMES[code]} ${code}` : code;
       chip.addEventListener("click", () => {
         if (activeCurrencies.has(code)) { activeCurrencies.delete(code); chip.classList.remove("on"); }
         else                            { activeCurrencies.add(code);    chip.classList.add("on");    }
@@ -515,11 +591,11 @@
     userMarker = L.circleMarker([lat, lng], {
       radius: 8, color: "white", weight: 3,
       fillColor: "#3d7a8a", fillOpacity: 1,
-    }).addTo(map).bindPopup("你在這裡");
+    }).addTo(map).bindPopup(T.youAreHere);
   }
 
   btnLocate.addEventListener("click", () => {
-    if (!navigator.geolocation) { alert("你的瀏覽器不支援定位功能"); return; }
+    if (!navigator.geolocation) { alert(T.noGeo); return; }
     btnLocate.disabled = true;
     navigator.geolocation.getCurrentPosition(
       pos => {
@@ -534,11 +610,7 @@
       },
       err => {
         btnLocate.disabled = false;
-        const msg = {
-          1: "請允許瀏覽器存取位置（設定 → Safari → 位置）",
-          2: "裝置無法取得位置訊號，請稍後再試",
-          3: "定位逾時，請確認 GPS 或網路正常後重試",
-        }[err.code] || "定位失敗，請稍後再試";
+        const msg = T.geoErr[err.code] || T.geoFail;
         alert(msg);
       },
       { timeout: 10000, maximumAge: 60000 }
@@ -561,6 +633,7 @@
       });
       banksOrdered.sort();
       banksOrdered.forEach(b => { activeSet.add(b); getColor(b); });
+      if (LANG === "en") banksOrdered.sort((a, b) => bankLabel(a).localeCompare(bankLabel(b)));
 
       // filter list
       const filterList = document.getElementById("filter-list");
@@ -571,7 +644,7 @@
         item.dataset.bank = bank;
         item.innerHTML = `
           <div class="f-dot" style="background:${color}"></div>
-          <span class="f-name">${bank}</span>
+          <span class="f-name">${bankLabel(bank)}</span>
           <div class="f-check"></div>
         `;
         item.addEventListener("click", () => {
@@ -588,7 +661,7 @@
           if (allOn) { activeSet.delete(banksOrdered[i]); el.classList.remove("on"); }
           else       { activeSet.add(banksOrdered[i]);    el.classList.add("on");    }
         });
-        document.getElementById("btn-sel-all").textContent = allOn ? "全選" : "全消";
+        document.getElementById("btn-sel-all").textContent = allOn ? T.selAll : T.clearAll;
         redraw();
       });
 
@@ -606,7 +679,7 @@
           <div class="popup-inner">
             <div class="popup-bank">
               <div class="popup-bank-dot" style="background:${color}"></div>
-              ${bank}
+              ${bankLabel(bank)}
             </div>
             <div class="popup-loc">${d["裝設地點"] || ""}</div>
             <div class="popup-addr">${d["地址"] || ""}</div>
@@ -620,7 +693,7 @@
     })
     .catch(err => {
       document.getElementById("map").innerHTML =
-        `<p style="padding:20px;color:red">資料載入失敗：${err.message}<br>請用 python3 -m http.server 8000 啟動後再開啟</p>`;
+        `<p style="padding:20px;color:red">${T.loadFail(err.message)}</p>`;
     });
 </script>
 </body>

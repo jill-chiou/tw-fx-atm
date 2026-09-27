@@ -21,6 +21,7 @@ This project turns that PDF into a service people can actually use.
 - **Find ATMs near you:** device geolocation with results sorted by distance
 - **Filter by bank and currency** (USD, JPY, CNY, HKD, EUR); filters combine, e.g. "Bank A and EUR"
 - **Works on any phone:** a static website with no app install, login, or API key
+- **English and Chinese interface:** follows the browser language, with a one-tap switch; branch names and addresses stay in Chinese as published by the source
 - **Monthly refresh workflow:** an update script compares each new FISC PDF with the current dataset; I run it and check the output by hand
 
 ## How it's built

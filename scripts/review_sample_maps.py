@@ -3,6 +3,7 @@
 
 用法：
     python3 scripts/review_sample_maps.py
+    python3 scripts/review_sample_maps.py <抽樣檔.csv> <結果檔.csv>   # 其他輪次的抽樣
 
 快捷鍵：
     Enter / o = OK
@@ -13,6 +14,7 @@
 """
 
 import csv
+import sys
 import time
 import webbrowser
 from pathlib import Path
@@ -21,6 +23,8 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 INPUT_PATH = ROOT / "data" / "processed" / "sample_validation.csv"
 OUTPUT_PATH = ROOT / "data" / "processed" / "sample_validation_review.csv"
+if len(sys.argv) == 3:
+    INPUT_PATH, OUTPUT_PATH = Path(sys.argv[1]), Path(sys.argv[2])
 
 FIELDNAMES = [
     "銀行名稱",

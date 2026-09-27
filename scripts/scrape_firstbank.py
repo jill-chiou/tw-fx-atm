@@ -22,6 +22,7 @@ OUTPUT   = ROOT / "data/processed/firstbank_currencies.json"
 API_URL = "https://www.firstbank.com.tw/sites/REST/controller/ATMNearYouRevCTL/searchATM"
 HEADERS = {
     "Content-Type": "application/x-www-form-urlencoded",
+    "Accept": "application/json",  # 2026-09 起未指定時預設回 XML
     "Referer": "https://www.firstbank.com.tw/sites/fcb/ATMNearYou",
 }
 
@@ -42,7 +43,7 @@ def fetch_all(func_id):
             "pageNumber": str(page),
         }).encode()
         req = urllib.request.Request(API_URL, data=data, headers=HEADERS, method="POST")
-        with urllib.request.urlopen(req) as r:
+        with urllib.request.urlopen(req, timeout=20) as r:
             d = json.loads(r.read())
         assets.extend(d["asset"])
         if page >= d["pageEnd"]:

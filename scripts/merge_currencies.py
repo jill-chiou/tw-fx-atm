@@ -86,6 +86,8 @@ CITY_OVERRIDES: dict[tuple, str] = {
 # 當分行名稱配對失敗時，依各銀行 ATM 服務頁標示的最小支援幣別作 fallback
 # 只有 FISC 全數為外幣 ATM、且官網有明確說明幣別的銀行才放這裡
 FALLBACK_CURRENCIES: dict[str, list[str]] = {
+    # 永豐：FISC 有列但 2026-09 官網未列的分行（敦南、南港等 8 家），保守套用官網最常見組合（100 台中 55 台僅 JPY、90 台含 JPY）
+    "永豐": ["JPY"],
     # 台新 ATM 服務頁: USD/JPY/CNY/EUR
     "台新": ["CNY", "EUR", "JPY", "USD"],
     # 兆豐機場 ATM（桃園/松山）官網 API 未回傳部分 hall，套用機場標準幣別
@@ -106,9 +108,6 @@ FISC_EXCLUDE: set[tuple[str, str]] = {
     ("第一", "金湖停車場"),              # 官網無此機台
     # 永豐官網確認無外幣提款服務
     ("永豐", "世貿分行"),
-    ("永豐", "三民分行"),
-    ("永豐", "岡山分行"),
-    ("永豐", "忠孝東路分行"),
     ("永豐", "萬華分行"),
     ("永豐", "興隆分行"),
     ("永豐", "中山分行"),
@@ -143,7 +142,8 @@ def extract_city(addr: str, bank_name: str, branch: str) -> str:
     return m.group(1) if m else ''
 
 
-FULLWIDTH_DIGITS = str.maketrans("０１２３４５６７８９", "0123456789")
+# 數字外也含括號、逗號（2026-09 國泰官網改用全形括號，FISC 仍為半形）
+FULLWIDTH_DIGITS = str.maketrans("０１２３４５６７８９（），", "0123456789(),")
 
 
 def to_halfwidth(s: str) -> str:

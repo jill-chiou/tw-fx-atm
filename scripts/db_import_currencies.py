@@ -55,6 +55,8 @@ PENDING: set[tuple] = {
 }
 
 FALLBACK_CURRENCIES: dict[str, list[str]] = {
+    # 永豐：FISC 有列但 2026-09 官網未列的分行（敦南、南港等 8 家），保守套用官網最常見組合（100 台中 55 台僅 JPY、90 台含 JPY）
+    "永豐": ["JPY"],
     "台新": ["CNY", "EUR", "JPY", "USD"],
     "兆豐": ["CNY", "EUR", "HKD", "JPY", "USD"],
     "新光": ["CNY", "HKD", "JPY", "USD"],
@@ -63,7 +65,8 @@ FALLBACK_CURRENCIES: dict[str, list[str]] = {
 }
 
 
-FULLWIDTH_DIGITS = str.maketrans("０１２３４５６７８９", "0123456789")
+# 數字外也含括號、逗號（2026-09 國泰官網改用全形括號，FISC 仍為半形）
+FULLWIDTH_DIGITS = str.maketrans("０１２３４５６７８９（），", "0123456789(),")
 
 
 def to_halfwidth(s: str) -> str:

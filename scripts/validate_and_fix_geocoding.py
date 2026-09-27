@@ -4,6 +4,7 @@
 2. 無座標 → 標記，輸出清單
 3. 座標超出台灣範圍 → 標記（金門離島例外）
 4. 輸出 30 筆抽樣 Google Maps 連結供手動核對
+5. 套用 COORD_OVERRIDES（TGOS 已知比對錯誤的手動修正，重新匯入 TGOS 後仍會套用）
 """
 
 import json
@@ -18,11 +19,20 @@ SAMPLE_PATH = Path(__file__).parent.parent / "data" / "processed" / "sample_vali
 LAT_MIN, LAT_MAX = 21.9, 25.4
 LNG_MIN, LNG_MAX = 118.0, 122.1  # 包含金門 118.x
 
+# TGOS 已知比對錯誤 → 改用銀行官網座標（2026-09 人工抽樣＋官網座標比對發現）
+# 共同原因：地址含多個門牌（如「361、363號」），TGOS 比對到其他門牌
+# (銀行名稱, 裝設地點): (lat, lng)
+COORD_OVERRIDES: dict[tuple[str, str], tuple[str, str]] = {
+    ("第一商業銀行", "樹林分行"): ("24.993095", "121.424535"),   # TGOS 配到 27之1號，偏 45m；Google Maps 與一銀官網一致
+    ("第一商業銀行", "大甲分行"): ("24.239571", "120.559964"),   # TGOS 配到順天路425號，偏 14km
+    ("第一商業銀行", "中壢分行"): ("24.955395", "121.219798"),   # 地址「146號1、2樓」，偏 224m
+}
+
 with open(JSON_PATH, encoding="utf-8") as f:
     data = json.load(f)
 
 fixed = []
-report = {"multi": [], "no_coord": [], "out_of_range": []}
+report = {"multi": [], "no_coord": [], "out_of_range": [], "override": []}
 
 for r in data:
     lat = r.get("lat")
@@ -33,6 +43,12 @@ for r in data:
         lat = str(lat).split(";")[0].strip()
         lng = str(lng).split(";")[0].strip()
         report["multi"].append({**r, "lat": lat, "lng": lng})
+
+    # 手動修正
+    override = COORD_OVERRIDES.get((r["銀行名稱"], r["裝設地點"]))
+    if override:
+        lat, lng = override
+        report["override"].append(r)
 
     # 無座標
     if not lat:
@@ -54,6 +70,7 @@ print("資料驗證結果")
 print("=" * 50)
 print(f"總筆數：{len(data)}")
 print(f"多重座標已取第一值：{len(report['multi'])} 筆")
+print(f"手動修正座標：{len(report['override'])} 筆（COORD_OVERRIDES 共 {len(COORD_OVERRIDES)} 筆）")
 print(f"無座標：{len(report['no_coord'])} 筆")
 print(f"座標超出範圍：{len(report['out_of_range'])} 筆")
 

@@ -1,5 +1,3 @@
-<!-- English draft for applicant review; check wording and current data before publishing. -->
-
 # Taiwan Foreign-Currency ATM Map
 
 English | [繁體中文](README.md)
